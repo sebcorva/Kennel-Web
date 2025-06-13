@@ -1,0 +1,25 @@
+# .gitignore
+
+# Directorio de dependencias de Python
+venv/
+__pycache__/
+*.pyc
+
+# Archivos de entorno y configuración sensible
+.env
+
+# Archivos de base de datos local (ej. si usas SQLite en desarrollo)
+*.sqlite3
+
+# Otros directorios de proyecto
+media/
+static/
+
+*.bak              # Archivos de backup
+*.tmp              # Archivos temporales
+
+# Archivos de base de datos MySQL (volcados/dumps y backups locales)
+*.sql.dump             # Volcados de base de datos MySQL comunes (ej. generados con mysqldump)
+*.sql.bak              # Archivos de respaldo SQL
+dump.sql               # Nombre común para un volcado de base de datos simple
+db_backup/             # Directorio si guardas tus backups en una carpeta específica
