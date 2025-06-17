@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}Eventos | Kennel Club de Chile{% endblock %}
+
+{% block content %}
+<div class="eventos-container">
+    <h1 class="text-4xl font-bold text-center mb-12 text-gray-800 py-8">Eventos</h1>
+    
+    <!-- Filtros -->
+    <div class="filtros-container mb-8 max-w-4xl mx-auto px-4">
+        <form method="GET" class="flex flex-wrap gap-4 justify-center items-center">
+            <!-- Filtro por año -->
+            <div class="flex items-center gap-2">
+                <label for="año" class="text-sm font-medium text-gray-700 dark:text-gray-300">Año:</label>
+                <select name="año" id="año" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <option value="">Todos los años</option>
+                    {% for año in años_disponibles %}
+                        <option value="{{ año }}" {% if año_actual == año|stringformat:"s" %}selected{% endif %}>{{ año }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Filtro por mes -->
+            <div class="flex items-center gap-2">
+                <label for="mes" class="text-sm font-medium text-gray-700 dark:text-gray-300">Mes:</label>
+                <select name="mes" id="mes" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <option value="">Todos los meses</option>
+                    {% for num, nombre in meses_es.items %}
+                        <option value="{{ num }}" {% if mes_actual == num|stringformat:"s" %}selected{% endif %}>{{ nombre|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Botón de filtrar -->
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm font-medium transition-colors">
+                Filtrar
+            </button>
+            
+            <!-- Botón de limpiar filtros -->
+            {% if año_actual or mes_actual %}
+                <a href="{% url 'eventos' %}" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 text-sm font-medium transition-colors">
+                    Limpiar
+                </a>
+            {% endif %}
+        </form>
+    </div>
+    
+    <!-- Información de resultados -->
+    <div class="text-center mb-6">
+        {% if año_actual or mes_actual %}
+            <p class="text-gray-600 dark:text-gray-400">
+                {% if eventos.count == 0 %}
+                    No se encontraron eventos
+                {% endif %}
+            </p>
+        {% else %}
+            <p class="text-gray-600 dark:text-gray-400">
+                {% if eventos.count == 0 %}
+                    No hay eventos disponibles
+                {% endif %}
+            </p>
+        {% endif %}
+    </div>
+    
+    <div class="eventos-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+        {% for evento in eventos %}
+        <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 relative">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ evento.tipo_evento }}</h5>
+            
+            {% if evento.descripcion %}
+            <p class="font-normal text-gray-700 dark:text-gray-400 mb-3">{{ evento.descripcion }}</p>
+            {% endif %}
+            
+            <!-- Días del evento -->
+            {% if evento.dias_formateados %}
+            <p class="font-medium text-gray-600 dark:text-gray-300 mb-3">
+                <strong>Fechas:</strong> 
+                {% for dia in evento.dias_formateados %}
+                    {% if not forloop.first %}, {% endif %}{{ dia }}
+                {% endfor %}
+            </p>
+            {% endif %}
+            
+            <!-- Invitados -->
+            {% if evento.invitados %}
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                <strong>Invitados:</strong> {{ evento.invitados }}
+            </p>
+            {% endif %}
+            
+            <!-- Badge del lugar -->
+            <div class="absolute bottom-4 right-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                    📍 {{ evento.lugar }}
+                </span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    @media (max-width: 768px) {
+        .eventos-grid {
+            grid-template-columns: 1fr !important;
+        }
+        
+        .filtros-container form {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .filtros-container .flex {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .filtros-container select,
+        .filtros-container button,
+        .filtros-container a {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %} 
