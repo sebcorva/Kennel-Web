@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Jueces Nacionales | Kennel Club de Chile{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-12">
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Jueces Nacionales</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Conoce a nuestros jueces especializados que garantizan la excelencia en las exposiciones caninas de Chile.
+            </p>
+        </div>
+
+        <!-- Tabs -->
+        {% if jueces_por_tipo %}
+        <div class="max-w-7xl mx-auto">
+            <!-- Tab Navigation -->
+            <div class="flex flex-wrap justify-center mb-8 border-b border-gray-200">
+                {% for tipo, jueces in jueces_por_tipo.items %}
+                <button 
+                    class="tab-button px-6 py-3 text-sm font-medium text-gray-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition-all duration-200 {% if forloop.first %}active text-blue-600 border-blue-600{% endif %}"
+                    data-tab="tab-{{ tipo.id }}"
+                >
+                    {{ tipo.nombre }}
+                </button>
+                {% endfor %}
+            </div>
+
+            <!-- Tab Content -->
+            {% for tipo, jueces in jueces_por_tipo.items %}
+            <div id="tab-{{ tipo.id }}" class="tab-content {% if forloop.first %}active{% endif %}">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2 text-center">{{ tipo.nombre }}</h2>
+                    {% if tipo.descripcion %}
+                    <p class="text-gray-600">{{ tipo.descripcion }}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Search Filter -->
+                <div class="mb-6 flex justify-center">
+                    <label for="search-{{ tipo.id }}" class="sr-only">Buscar jueces</label>
+                    <div class="relative max-w-md">
+                        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input type="text" id="search-{{ tipo.id }}" class="block w-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar jueces por nombre...">
+                    </div>
+                </div>
+                
+                <!-- Jueces Table -->
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Juez
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Afijo
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Razas
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Especialidades
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Licencias
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Contacto
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Curriculum
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-{{ tipo.id }}">
+                            {% for juez in jueces %}
+                            <tr class="juez-row bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600" data-nombre="{{ juez.nombres|lower }} {{ juez.apellido_paterno|lower }} {{ juez.apellido_materno|lower }}">
+                                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                    {% if juez.fotografia %}
+                                    <img src="{{ juez.fotografia.url }}" alt="{{ juez.nombre_completo }}" class="w-10 h-10 rounded-full object-cover">
+                                    {% else %}
+                                    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    {% endif %}
+                                    <div class="ps-3">
+                                        <div class="text-base font-semibold">{{ juez.nombres }}</div>
+                                        <div class="font-normal text-gray-500">{{ juez.apellido_paterno }} {{ juez.apellido_materno }}</div>
+                                    </div>
+                                </th>
+                                <td class="px-6 py-4">
+                                    {% if juez.afijo %}
+                                    <span class="text-blue-600 font-medium">{{ juez.afijo }}</span>
+                                    {% else %}
+                                    <span class="text-gray-400">-</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {% if juez.razas.all %}
+                                    <div class="flex flex-wrap gap-1">
+                                        {% for raza in juez.razas.all|slice:":3" %}
+                                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{{ raza.nombre }}</span>
+                                        {% endfor %}
+                                        {% if juez.razas.count > 3 %}
+                                        <span class="text-xs text-gray-500">+{{ juez.razas.count|add:"-3" }} más</span>
+                                        {% endif %}
+                                    </div>
+                                    {% else %}
+                                    <span class="text-gray-400">-</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {% if juez.especialidades.all %}
+                                    <div class="flex flex-wrap gap-1">
+                                        {% for especialidad in juez.especialidades.all|slice:":2" %}
+                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{{ especialidad.nombre }}</span>
+                                        {% endfor %}
+                                        {% if juez.especialidades.count > 2 %}
+                                        <span class="text-xs text-gray-500">+{{ juez.especialidades.count|add:"-2" }} más</span>
+                                        {% endif %}
+                                    </div>
+                                    {% else %}
+                                    <span class="text-gray-400">-</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {% if juez.licencias.all %}
+                                    <div class="flex flex-wrap gap-1">
+                                        {% for licencia in juez.licencias.all|slice:":2" %}
+                                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">{{ licencia.nombre }}</span>
+                                        {% endfor %}
+                                        {% if juez.licencias.count > 2 %}
+                                        <span class="text-xs text-gray-500">+{{ juez.licencias.count|add:"-2" }} más</span>
+                                        {% endif %}
+                                    </div>
+                                    {% else %}
+                                    <span class="text-gray-400">-</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="space-y-1">
+                                        {% if juez.email %}
+                                        <div class="flex items-center space-x-2">
+                                            <a href="mailto:{{ juez.email }}" class="text-blue-600 hover:text-blue-800" title="Enviar email">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                                </svg>
+                                            </a>
+                                            <span class="text-xs text-gray-600">{{ juez.email }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if juez.celular1 %}
+                                        <div class="flex items-center space-x-2">
+                                            <a href="tel:{{ juez.celular1 }}" class="text-green-600 hover:text-green-800" title="Llamar">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                                                </svg>
+                                            </a>
+                                            <span class="text-xs text-gray-600">{{ juez.celular1 }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if juez.celular2 %}
+                                        <div class="flex items-center space-x-2">
+                                            <a href="tel:{{ juez.celular2 }}" class="text-green-600 hover:text-green-800" title="Llamar">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                                                </svg>
+                                            </a>
+                                            <span class="text-xs text-gray-600">{{ juez.celular2 }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if not juez.email and not juez.celular1 and not juez.celular2 %}
+                                        <span class="text-gray-400">-</span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    {% if juez.curriculum %}
+                                    <a href="{{ juez.curriculum.url }}" download class="text-blue-600 hover:text-blue-800 flex items-center space-x-2" title="Descargar curriculum">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="text-xs">Descargar</span>
+                                    </a>
+                                    {% else %}
+                                    <span class="text-gray-400">No disponible</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <div class="max-w-md mx-auto">
+                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">No hay jueces disponibles</h3>
+                <p class="text-gray-600">En este momento no hay jueces registrados en el sistema.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTab = button.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active', 'text-blue-600', 'border-blue-600'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and target content
+            button.classList.add('active', 'text-blue-600', 'border-blue-600');
+            document.getElementById(targetTab).classList.add('active');
+        });
+    });
+
+    // Search functionality for each tab
+    const searchInputs = document.querySelectorAll('input[id^="search-"]');
+    
+    searchInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const tabId = this.id.replace('search-', '');
+            const tbody = document.getElementById(`tbody-${tabId}`);
+            const rows = tbody.querySelectorAll('.juez-row');
+            
+            rows.forEach(row => {
+                const nombre = row.getAttribute('data-nombre');
+                if (nombre.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>
+
+<style>
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-button.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+}
+</style>
+{% endblock %} 
