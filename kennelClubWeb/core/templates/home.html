@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bienvenido | Kennel Club de Chile{% endblock %}
+
+{% block content %}
+<div id="fondoHome" class="min-h-screen">
+    <div class="bg-overlay min-h-screen flex items-center w-full">
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="flex flex-col items-center justify-center text-white px-4 md:px-8 w-full max-w-4xl -ml-5">
+            <div class="text-center">
+                <h1 style="font-size: 6rem; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin-bottom: 1rem;">KENNEL</h1>
+                <h2 style="font-size: 4rem; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin-bottom: 2rem;">CLUB DE CHILE</h2>
+                <div class="flex flex-col space-y-4">
+                    <a href="https://www.youtube.com/@kennelclubchile" class="flex items-center space-x-2 hover:text-blue-600 transition-colors">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                        <span>Kennel Club de Chile</span>
+                    </a>
+                    <a href="https://www.facebook.com/@kennelclubchile" class="flex items-center space-x-2 hover:text-blue-600 transition-colors">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span>Kennel Club de Chile</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-video">
+        <iframe 
+            src="https://www.youtube.com/embed/BBKGC8Frx3Q?rel=0&modestbranding=1"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+        </iframe>
+    </div>
+    <div class="card-content">
+        <h3 class="text-slate-900">Revive nuestra transmisión</h3>
+        <p class="text-slate-500">No te pierdas los momentos que vivimos en nuestra última competencia.<br>
+        Suscríbete a nuestro canal para estar al día de los eventos de Kennel Club de Chile</p>
+        <button class="text-red-500">Suscribirse</button>
+        <button>Ir al canal</button>
+    </div>
+</div>
+
+<script>
+    // Script para el menú móvil
+    const menuButton = document.getElementById('menuButton');
+    const closeMenu = document.getElementById('closeMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    menuButton.addEventListener('click', () => {
+        mobileMenu.classList.remove('translate-x-full');
+    });
+
+    closeMenu.addEventListener('click', () => {
+        mobileMenu.classList.add('translate-x-full');
+    });
+
+    // Script para el menú desplegable de Razas
+    const razasBtn = document.getElementById('razasBtn');
+    const razasMenu = document.getElementById('razasMenu');
+
+    razasBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        razasMenu.classList.toggle('hidden');
+    });
+
+    // Cerrar el menú al hacer clic fuera
+    document.addEventListener('click', () => {
+        razasMenu.classList.add('hidden');
+    });
+</script>
+{% endblock %} 

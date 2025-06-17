@@ -23,3 +23,5 @@ static/
 *.sql.bak              # Archivos de respaldo SQL
 dump.sql               # Nombre común para un volcado de base de datos simple
 db_backup/             # Directorio si guardas tus backups en una carpeta específica
+
+node_modules/
