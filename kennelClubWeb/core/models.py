@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 
@@ -113,4 +114,37 @@ class Evento(models.Model):
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventos'
         ordering = ['-fecha_inicio']
+
+
+class Ranking(models.Model):
+    titulo = models.CharField(max_length=200)
+    fecha = models.CharField(
+        max_length=7,
+        validators=[
+            RegexValidator(
+                regex=r'^\d{4}-\d{2}$',
+                message='Ingresa la fecha en formato YYYY-MM (ej: 2024-01)'
+            )
+        ],
+        help_text="Formato: YYYY-MM (ej: 2024-01 para Enero 2024)"
+    )
+    archivo = models.FileField(upload_to='rankings/', blank=True, null=True)
+    categoria = models.CharField(max_length=100, blank=True, null=True)
+    
+    def __str__(self):
+        return self.titulo
+    
+    def fecha_mes_anio(self):
+        """Retorna la fecha en formato mes/año"""
+        try:
+            from datetime import datetime
+            fecha_obj = datetime.strptime(self.fecha, '%Y-%m')
+            return fecha_obj.strftime('%B %Y')
+        except:
+            return self.fecha
+    
+    class Meta:
+        verbose_name = 'Ranking'
+        verbose_name_plural = 'Rankings'
+        ordering = ['-fecha']
 

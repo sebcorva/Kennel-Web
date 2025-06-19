@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Noticias, Raza, Especialidad, TipoJuez, Licencia, Juez, Evento
+from django import forms
+from django.utils.html import format_html
+from .models import Noticias, Raza, Especialidad, TipoJuez, Licencia, Juez, Evento, Ranking
 
 @admin.register(Noticias)
 class NoticiasAdmin(admin.ModelAdmin):
@@ -86,3 +88,34 @@ class EventoAdmin(admin.ModelAdmin):
         }),
     )
     ordering = ('-fecha_inicio',)
+
+
+class RankingAdminForm(forms.ModelForm):
+    class Meta:
+        model = Ranking
+        fields = '__all__'
+        widgets = {
+            'fecha': forms.TextInput(
+                attrs={
+                    'placeholder': 'YYYY-MM (ej: 2024-01)',
+                    'class': 'vTextField',
+                }
+            ),
+        }
+
+@admin.register(Ranking)
+class RankingAdmin(admin.ModelAdmin):
+    form = RankingAdminForm
+    list_display = ('titulo', 'fecha_mes_anio', 'archivo', 'categoria')
+    list_filter = ('fecha', 'categoria')
+    search_fields = ('titulo', 'categoria')
+    fieldsets = (
+        ('Información del Ranking', {
+            'fields': ('titulo', 'fecha', 'archivo', 'categoria')
+        }),
+    )
+    ordering = ('-fecha',)
+    
+    def fecha_mes_anio(self, obj):
+        return obj.fecha_mes_anio()
+    fecha_mes_anio.short_description = 'Mes/Año'

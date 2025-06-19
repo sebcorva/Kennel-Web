@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Noticias, Juez, TipoJuez, Evento
+from .models import Noticias, Juez, TipoJuez, Evento, Ranking
 from datetime import datetime, timedelta
 
 # Create your views here.
@@ -83,4 +83,37 @@ def eventos(request):
         'meses_es': meses_es,
         'año_actual': año_filtro,
         'mes_actual': mes_filtro
+    })
+
+def quienes_somos(request):
+    return render(request, 'quienes_somos.html')
+
+def razas(request):
+    return render(request, 'razas.html')
+
+def rankings(request):
+    # Obtener todos los rankings ordenados por fecha (más reciente primero)
+    rankings = Ranking.objects.all().order_by('-fecha')
+    
+    # Agrupar rankings por año
+    rankings_por_año = {}
+    años_disponibles = []
+    
+    for ranking in rankings:
+        # Extraer el año del campo fecha (formato YYYY-MM)
+        año = ranking.fecha.split('-')[0]
+        
+        if año not in rankings_por_año:
+            rankings_por_año[año] = []
+            años_disponibles.append(año)
+        
+        rankings_por_año[año].append(ranking)
+    
+    # Ordenar años de más reciente a más antiguo
+    años_disponibles.sort(reverse=True)
+    
+    return render(request, 'rankings.html', {
+        'rankings_por_año': rankings_por_año,
+        'años_disponibles': años_disponibles,
+        'rankings': rankings  # Mantener para compatibilidad
     })
