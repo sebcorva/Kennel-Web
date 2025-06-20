@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django import forms
 from django.utils.html import format_html
-from .models import Noticias, Raza, Especialidad, TipoJuez, Licencia, Juez, Evento, Ranking
+from .models import Noticias, Raza, Especialidad, TipoJuez, Licencia, Juez, Evento, Ranking, Reglamentos, Crianza
 
 @admin.register(Noticias)
 class NoticiasAdmin(admin.ModelAdmin):
@@ -119,3 +119,32 @@ class RankingAdmin(admin.ModelAdmin):
     def fecha_mes_anio(self, obj):
         return obj.fecha_mes_anio()
     fecha_mes_anio.short_description = 'Mes/Año'
+
+
+@admin.register(Reglamentos)
+class ReglamentosAdmin(admin.ModelAdmin):
+    list_display = ('nombreReglamento', 'archivo', 'fecha_creacion')
+    list_filter = ('fecha_creacion',)
+    search_fields = ('nombreReglamento',)
+    readonly_fields = ('fecha_creacion',)
+    fieldsets = (
+        ('Información del Reglamento', {
+            'fields': ('nombreReglamento', 'archivo')
+        }),
+        ('Información del Sistema', {
+            'fields': ('fecha_creacion',)
+        }),
+    )
+    ordering = ('-fecha_creacion',)
+
+
+@admin.register(Crianza)
+class CrianzaAdmin(admin.ModelAdmin):
+    list_display = ('titulo',)
+    search_fields = ('titulo', 'contenido')
+    fieldsets = (
+        ('Información de Crianza', {
+            'fields': ('titulo', 'contenido')
+        }),
+    )
+    ordering = ('titulo',)
