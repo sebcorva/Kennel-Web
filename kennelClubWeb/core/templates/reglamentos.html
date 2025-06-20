@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reglamentos | Kennel Club de Chile{% endblock %}
+
+{% block content %}
+<div class="py-12">
+    <div class="container mx-auto px-4">
+
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-700 mb-4">Reglamentos</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Revisa y descarga los reglamentos oficiales de Kennel Club de Chile.
+            </p>
+        </div>
+
+        <!-- Search Filter -->
+        <div class="mb-6 flex justify-center">
+            <label for="search-reglamentos" class="sr-only">Buscar reglamentos</label>
+            <div class="relative w-3/4 max-w-xl">
+                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </div>
+                <input type="text" id="search-reglamentos" class="block w-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar reglamentos por nombre...">
+            </div>
+        </div>
+
+        <!-- Reglamentos Content -->
+        {% if reglamentos %}
+        <div class="max-w-7xl mx-auto">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Nombre Reglamento
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Ultima Actualización
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Descargar PDF
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="reglamentos-tbody">
+                        {% for reglamento in reglamentos %}
+                        <tr class="reglamento-row bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600" data-nombre="{{ reglamento.nombreReglamento|lower }}">
+                            <th scope="row" class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                <div class="text-base font-semibold">{{ reglamento.nombreReglamento }}</div>
+                            </th>
+                            <td class="px-6 py-4">
+                                <span class="text-blue-600 font-medium">{{ reglamento.fecha_creacion|date:"d/m/Y" }}</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                {% if reglamento.archivo %}
+                                <a href="{{ reglamento.archivo.url }}" target="_blank" class="text-blue-600 hover:text-blue-800 flex items-center space-x-2" title="Ver reglamento">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm">Ver PDF</span>
+                                </a>
+                                {% else %}
+                                <span class="text-gray-400">No disponible</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <div class="max-w-md mx-auto">
+                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">No hay reglamentos disponibles</h3>
+                <p class="text-gray-600">En este momento no hay reglamentos registrados en el sistema.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Search functionality
+    const searchInput = document.getElementById('search-reglamentos');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.reglamento-row');
+            
+            rows.forEach(row => {
+                const nombre = row.getAttribute('data-nombre');
+                if (nombre.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %} 

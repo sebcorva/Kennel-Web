@@ -15,7 +15,7 @@
         <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4">
             <!-- Logo -->
             <a href="{% url 'home' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="{% static 'img/kennel-club-chile.png' %}" alt="Kennel Club de Chile Logo" class="h-8">
+                <img id="logo-kennel" src="{% static 'img/kennel-club-chile.png' %}" alt="Kennel Club de Chile Logo" class="h-12 transition-all duration-300 ease-in-out">
                 <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white hidden md:flex flex-col">
                     <span>Kennel</span>
                     <span>Club de Chile</span>
@@ -49,10 +49,10 @@
                         </div>
                     </li> -->
                     <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Reglamentos</a>
+                        <a href="{% url 'historia_razas' %}" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Historia de Razas</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Galería</a>
+                        <a href="{% url 'crianza' %}" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Crianza</a>
                     </li>
                 </ul>
             </div>
@@ -151,7 +151,6 @@
             <div class="sticky top-35">
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
                     <div class="p-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Publicidad</h3>
                         <a href="https://www.animalplanetnutribalance.cl/" target="_blank"><img src="{% static 'img/Publicidad1.png' %}" alt="Publicidad" class="w-full h-auto rounded-lg"></a>
                         
                         <p class="text-sm text-gray-600 mt-2 text-center">Espacio publicitario</p>
@@ -208,7 +207,7 @@
                 <ul class="text-sm space-y-2">
                     <li><a href="{% url 'quienes_somos' %}" class="hover:text-blue-400 transition-colors">Quiénes Somos</a></li>
                     <li><a href="#" class="hover:text-blue-400 transition-colors">Preguntas Frecuentes</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">Reglamentos</a></li>
+                    <li><a href="{% url 'reglamentos' %}" class="hover:text-blue-400 transition-colors">Reglamentos</a></li>
                     <li><a href="#" class="hover:text-blue-400 transition-colors">Links</a></li>
                     <li><a href="#" class="hover:text-blue-400 transition-colors">Contacto</a></li>
                 </ul>
@@ -248,9 +247,44 @@
             razasMenu.classList.add('hidden');
         });
         }
+
+        
     </script>
 
     {% block extra_js %}{% endblock %}
+    
+    <!-- Script de prueba simple -->
+    <script>
+        // Prueba simple de hover
+        window.addEventListener('load', function() {
+            const logo = document.getElementById('logo-kennel');
+            if (logo) {
+                // Construir URL de hover
+                const baseUrl = logo.src.substring(0, logo.src.lastIndexOf('/') + 1);
+                const hoverSrc = baseUrl + 'kennel-club-chile2.png';
+                
+                logo.onmouseenter = function() {
+                    setTimeout(() => {
+                        this.src = hoverSrc;
+                        // Efecto de fade in
+                        this.style.opacity = '1';
+                    }, 150);
+                };
+                
+                logo.onmouseleave = function() {
+                    setTimeout(() => {
+                        setTimeout(() => {
+                            this.src = logo.src.replace('kennel-club-chile2.png', 'kennel-club-chile.png');
+                            // Efecto de fade in
+                            this.style.opacity = '1';
+                        }, 150);
+                    }, 500);
+                };
+            } else {
+                console.log('Prueba: No se encontró el logo');
+            }
+        });
+    </script>
 </body>
 </html>
 

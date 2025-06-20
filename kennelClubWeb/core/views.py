@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Noticias, Juez, TipoJuez, Evento, Ranking
+from .models import Noticias, Juez, TipoJuez, Evento, Ranking, Reglamentos, Crianza
 from datetime import datetime, timedelta
 
 # Create your views here.
@@ -15,7 +15,8 @@ def detalle_noticia(request, noticia_id):
     return render(request, 'detalle_noticia.html', {'noticia': noticia})
 
 def crianza(request):
-    return render(request, 'crianza.html')
+    crianzas = Crianza.objects.all().order_by('titulo')
+    return render(request, 'crianza.html', {'crianzas': crianzas})
 
 def jueces_nacionales(request):
     # Obtener todos los tipos de juez
@@ -91,6 +92,9 @@ def quienes_somos(request):
 def razas(request):
     return render(request, 'razas.html')
 
+def historia_razas(request):
+    return render(request, 'historia_razas.html')
+
 def rankings(request):
     # Obtener todos los rankings ordenados por fecha (más reciente primero)
     rankings = Ranking.objects.all().order_by('-fecha')
@@ -116,4 +120,12 @@ def rankings(request):
         'rankings_por_año': rankings_por_año,
         'años_disponibles': años_disponibles,
         'rankings': rankings  # Mantener para compatibilidad
+    })
+
+def reglamentos(request):
+    # Obtener todos los reglamentos ordenados por fecha de creación (más reciente primero)
+    reglamentos = Reglamentos.objects.all().order_by('-fecha_creacion')
+    
+    return render(request, 'reglamentos.html', {
+        'reglamentos': reglamentos
     })
