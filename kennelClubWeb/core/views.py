@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Noticias, Juez, TipoJuez, Evento, Ranking, Reglamentos, Crianza
+from .models import Noticias, Juez, TipoJuez, Evento, Ranking, Reglamentos, Crianza, HistoriaRazas, FotoHistoriaRaza, Tramites, PreguntasFrecuentes
 from datetime import datetime, timedelta
 
 # Create your views here.
@@ -93,7 +93,8 @@ def razas(request):
     return render(request, 'razas.html')
 
 def historia_razas(request):
-    return render(request, 'historia_razas.html')
+    historias_razas = HistoriaRazas.objects.all().order_by('titulo')
+    return render(request, 'historia_razas.html', {'historias_razas': historias_razas})
 
 def rankings(request):
     # Obtener todos los rankings ordenados por fecha (más reciente primero)
@@ -129,3 +130,62 @@ def reglamentos(request):
     return render(request, 'reglamentos.html', {
         'reglamentos': reglamentos
     })
+
+def detalle_historia_raza(request, historia_id):
+    historia = get_object_or_404(HistoriaRazas, id=historia_id)
+    fotos = historia.fotos.all().order_by('orden')
+    clubes = historia.clubes.all().order_by('titulo')
+    
+    return render(request, 'detalle_historia_razas.html', {
+        'historia': historia,
+        'fotos': fotos,
+        'clubes': clubes
+    })
+
+def tramites(request):
+    # Orden específico solicitado
+    orden_especifico = [
+        'Trámites a distancia',
+        'Obtención de Kennel Name, afijo o nombre de criadero, Declaración Jurada Criadero en Web', 
+        'Inscripción de lechigadas'
+    ]
+    
+    # Obtener todos los trámites
+    todos_tramites = list(Tramites.objects.all())
+    
+    # Ordenar según el orden específico
+    tramites_ordenados = []
+    for nombre_ordenado in orden_especifico:
+        for tramite in todos_tramites:
+            if tramite.nombre == nombre_ordenado:
+                tramites_ordenados.append(tramite)
+                break
+    
+    # Agregar cualquier trámite que no esté en la lista específica al final
+    for tramite in todos_tramites:
+        if tramite not in tramites_ordenados:
+            tramites_ordenados.append(tramite)
+    
+    return render(request, 'tramites.html', {'tramites': tramites_ordenados})
+
+def preguntas_frecuentes(request):
+    # Obtener las categorías disponibles del modelo
+    categorias = PreguntasFrecuentes.CATEGORIA_CHOICES
+    
+    return render(request, 'preguntas_frecuentes.html', {'categorias': categorias})
+
+def detalle_preguntas_frecuentes(request, categoria):
+    # Obtener el nombre legible de la categoría
+    categoria_nombre = dict(PreguntasFrecuentes.CATEGORIA_CHOICES).get(categoria, categoria)
+    
+    # Obtener las preguntas de la categoría específica
+    preguntas = PreguntasFrecuentes.objects.filter(categoria=categoria).order_by('orden')
+    
+    return render(request, 'detalle_preguntas_frecuentes.html', {
+        'categoria': categoria,
+        'categoria_nombre': categoria_nombre,
+        'preguntas': preguntas
+    })
+
+def contacto(request):
+    return render(request, 'contacto.html')

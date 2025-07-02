@@ -174,3 +174,103 @@ class Crianza(models.Model):
         verbose_name = 'Crianza'
         verbose_name_plural = 'Crianza'
 
+
+class Club(models.Model):
+    titulo = models.CharField(max_length=200)
+    descripcion = RichTextUploadingField(blank=True, null=True)
+    logo = models.ImageField(upload_to='clubes/', null=True, blank=True)
+    link = models.URLField(max_length=500, blank=True, null=True)
+    
+    def __str__(self):
+        return self.titulo
+    
+    class Meta:
+        verbose_name = 'Club'
+        verbose_name_plural = 'Clubes'
+        ordering = ['titulo']
+
+
+class HistoriaRazas(models.Model):
+    titulo = models.CharField(max_length=200)
+    imagenPrincipal = models.ImageField(upload_to='historia_razas/', null=True, blank=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    clubes = models.ManyToManyField(Club, related_name='historias_razas', blank=True)
+    
+    def __str__(self):
+        return self.titulo
+    
+    class Meta:
+        verbose_name = 'Historia de Raza'
+        verbose_name_plural = 'Historias de Razas'
+        ordering = ['-fecha_creacion']
+
+
+class FotoHistoriaRaza(models.Model):
+    historia_raza = models.ForeignKey(HistoriaRazas, on_delete=models.CASCADE, related_name='fotos')
+    imagen = models.ImageField(upload_to='historia_razas/')
+    orden = models.PositiveIntegerField(default=0)
+    
+    def __str__(self):
+        return f"Foto de {self.historia_raza.titulo} - Orden {self.orden}"
+    
+    class Meta:
+        verbose_name = 'Foto de Historia de Raza'
+        verbose_name_plural = 'Fotos de Historias de Razas'
+        ordering = ['orden', 'id']
+
+
+class Tramites(models.Model):
+    nombre = models.CharField(max_length=200)
+    descripcion = models.TextField(blank=True, null=True)
+    imagen = models.ImageField(upload_to='tramites/', null=True, blank=True)
+    
+    def __str__(self):
+        return self.nombre
+    
+    class Meta:
+        verbose_name = 'Trámite'
+        verbose_name_plural = 'Trámites'
+        ordering = ['nombre']
+
+
+class ArchivoTramite(models.Model):
+    tramite = models.ForeignKey(Tramites, on_delete=models.CASCADE, related_name='archivos')
+    archivo = models.FileField(upload_to='tramites/archivos/')
+    nombre_archivo = models.CharField(max_length=200, blank=True, null=True)
+    fecha_subida = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Archivo de {self.tramite.nombre}"
+    
+    def save(self, *args, **kwargs):
+        if not self.nombre_archivo:
+            self.nombre_archivo = self.archivo.name.split('/')[-1]
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name = 'Archivo de Trámite'
+        verbose_name_plural = 'Archivos de Trámites'
+        ordering = ['fecha_subida']
+
+
+class PreguntasFrecuentes(models.Model):
+    CATEGORIA_CHOICES = [
+        ('tramites', 'Trámites y Documentación'),
+        ('cruza', 'Cruza y Camadas'),
+        ('exposiciones', 'Exposiciones y Campeonatos'),
+        ('contacto', 'Contacto y Horarios'),
+    ]
+    
+    pregunta = models.CharField(max_length=500)
+    respuesta = models.TextField()
+    categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
+    orden = models.PositiveIntegerField(default=0)
+    
+    def __str__(self):
+        return self.pregunta
+    
+    class Meta:
+        verbose_name = 'Pregunta Frecuente'
+        verbose_name_plural = 'Preguntas Frecuentes'
+        ordering = ['categoria', 'orden']
+
