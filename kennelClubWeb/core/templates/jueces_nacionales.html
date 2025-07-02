@@ -4,12 +4,12 @@
 {% block title %}Jueces Nacionales | Kennel Club de Chile{% endblock %}
 
 {% block content %}
-<div class="py-12">
+<div class="">
     <div class="container mx-auto px-4">
         <!-- Header -->
         <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">Jueces Nacionales</h1>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+            <h1 class="text-4xl font-bold title-color mb-4">Jueces Nacionales</h1>
+            <p class="text-lg paragraph-color max-w-3xl mx-auto">
                 Conoce a nuestros jueces especializados que garantizan la excelencia en las exposiciones caninas de Chile.
             </p>
         </div>
@@ -33,9 +33,9 @@
             {% for tipo, jueces in jueces_por_tipo.items %}
             <div id="tab-{{ tipo.id }}" class="tab-content {% if forloop.first %}active{% endif %}">
                 <div class="mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2 text-center">{{ tipo.nombre }}</h2>
+                    <h2 class="text-2xl font-bold title-color mb-2 text-center">{{ tipo.nombre }}</h2>
                     {% if tipo.descripcion %}
-                    <p class="text-gray-600">{{ tipo.descripcion }}</p>
+                    <p class="paragraph-color">{{ tipo.descripcion }}</p>
                     {% endif %}
                 </div>
                 

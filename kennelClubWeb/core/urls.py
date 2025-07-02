@@ -11,6 +11,11 @@ urlpatterns = [
     path('quienes-somos/', views.quienes_somos, name='quienes_somos'),
     path('razas/', views.razas, name='razas'),
     path('historia-razas/', views.historia_razas, name='historia_razas'),
+    path('historia-razas/<int:historia_id>/', views.detalle_historia_raza, name='detalle_historia_raza'),
     path('rankings/', views.rankings, name='rankings'),
     path('reglamentos/', views.reglamentos, name='reglamentos'),
+    path('tramites/', views.tramites, name='tramites'),
+    path('preguntas-frecuentes/', views.preguntas_frecuentes, name='preguntas_frecuentes'),
+    path('preguntas-frecuentes/<str:categoria>/', views.detalle_preguntas_frecuentes, name='detalle_preguntas_frecuentes'),
+    path('contacto/', views.contacto, name='contacto'),
 ]

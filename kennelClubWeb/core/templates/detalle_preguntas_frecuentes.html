@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ categoria_nombre }} - Preguntas Frecuentes | Kennel Club de Chile{% endblock %}
+
+{% block content %}
+<div class="py-12">
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="mb-4">
+                <a href="{% url 'preguntas_frecuentes' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Volver a Preguntas Frecuentes
+                </a>
+            </div>
+            <h1 class="text-4xl font-bold title-color mb-4">{{ categoria_nombre }}</h1>
+            <p class="text-lg paragraph-color max-w-3xl mx-auto">
+                Encuentra respuestas a las preguntas más comunes sobre {{ categoria_nombre|lower }}.
+            </p>
+        </div>
+
+        <!-- Acordeón de Preguntas -->
+        <div class="max-w-4xl mx-auto">
+            {% if preguntas %}
+            <div id="accordion-collapse" data-accordion="collapse">
+                {% for pregunta in preguntas %}
+                <h2 id="accordion-collapse-heading-{{ forloop.counter }}">
+                    <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 {% if forloop.first %}rounded-t-xl{% endif %} focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-{{ forloop.counter }}" aria-expanded="false" aria-controls="accordion-collapse-body-{{ forloop.counter }}">
+                        <span class="text-left">{{ pregunta.pregunta }}</span>
+                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-collapse-body-{{ forloop.counter }}" class="hidden" aria-labelledby="accordion-collapse-heading-{{ forloop.counter }}">
+                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900 {% if forloop.last %}rounded-b-xl{% endif %}">
+                        <div class="text-justify">
+                            {{ pregunta.respuesta|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-12">
+                <div class="max-w-md mx-auto">
+                    <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3 class="text-lg font-medium title-color mb-2">No hay preguntas disponibles</h3>
+                    <p class="paragraph-color">En este momento no hay preguntas registradas para esta categoría.</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilos para el acordeón */
+    #accordion-collapse h2:first-child button {
+        border-top-left-radius: 0.75rem;
+        border-top-right-radius: 0.75rem;
+    }
+    
+    #accordion-collapse h2:last-child button {
+        border-bottom-left-radius: 0.75rem;
+        border-bottom-right-radius: 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    #accordion-collapse h2:last-child + div {
+        border-bottom-left-radius: 0.75rem;
+        border-bottom-right-radius: 0.75rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .container h1 {
+            font-size: 2rem;
+        }
+        
+        #accordion-collapse button {
+            padding: 1rem;
+        }
+        
+        #accordion-collapse button span {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Funcionalidad del acordeón
+    const accordionButtons = document.querySelectorAll('[data-accordion-target]');
+    
+    accordionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-accordion-target');
+            const targetElement = document.querySelector(targetId);
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            
+            // Cerrar todos los acordeones
+            accordionButtons.forEach(btn => {
+                const btnTargetId = btn.getAttribute('data-accordion-target');
+                const btnTargetElement = document.querySelector(btnTargetId);
+                const btnIcon = btn.querySelector('[data-accordion-icon]');
+                
+                btn.setAttribute('aria-expanded', 'false');
+                btnTargetElement.classList.add('hidden');
+                btnIcon.style.transform = 'rotate(180deg)';
+            });
+            
+            // Abrir el acordeón clickeado si no estaba abierto
+            if (!isExpanded) {
+                this.setAttribute('aria-expanded', 'true');
+                targetElement.classList.remove('hidden');
+                const icon = this.querySelector('[data-accordion-icon]');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        });
+    });
+});
+</script>
+{% endblock %} 
