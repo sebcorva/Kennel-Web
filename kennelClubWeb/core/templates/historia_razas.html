@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Historia de las Razas{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4">
+    <h1 class="text-4xl font-bold title-color mb-8 text-center">Historia de las Razas</h1>
+    <p class="text-lg paragraph-color mb-8 text-center max-w-3xl mx-auto">
+        Descubre la fascinante historia detrás de las razas caninas más populares y emblemáticas del mundo.
+    </p>
+    
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+        {% for historia in historias_razas %}
+        <div>
+            <a href="{% url 'detalle_historia_raza' historia.id %}" class="block hover:opacity-80 transition-opacity duration-200">
+                <div class="relative group">
+                    {% if historia.imagenPrincipal %}
+                    <img class="h-85 w-full object-cover object-top rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200" 
+                         src="{{ historia.imagenPrincipal.url }}" 
+                         alt="{{ historia.titulo }}">
+                    {% else %}
+                    <img class="h-85 w-full object-cover object-top rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200" 
+                         src="{% static 'img/historia-razas/default.jpg' %}" 
+                         alt="{{ historia.titulo }}">
+                    {% endif %}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent rounded-lg"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                        <h3 class="text-white font-semibold text-lg leading-tight drop-shadow-lg">{{ historia.titulo }}</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <div class="col-span-full text-center py-10">
+            <p class="paragraph-color">No hay historias de razas disponibles.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 
