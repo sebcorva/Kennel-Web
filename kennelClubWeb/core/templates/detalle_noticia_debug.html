@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ noticia.titulo }} | Kennel Club de Chile{% endblock %}
+
+{% block content %}
+<div class="noticias-container text-center justify-center align-center">
+    <div class="">
+        <h1 class="text-4xl font-bold text-center mb-12 title-color py-8">{{ noticia.titulo }}</h1>
+        
+        <!-- DEBUG INFO -->
+        <div class="bg-yellow-100 p-4 mb-4 rounded">
+            <h3 class="font-bold">DEBUG INFO:</h3>
+            <p><strong>ID Noticia:</strong> {{ noticia.id }}</p>
+            <p><strong>Campo imagen:</strong> {{ noticia.imagen }}</p>
+            <p><strong>URL imagen:</strong> {{ noticia.imagen.url }}</p>
+            <p><strong>¿Tiene imagen?:</strong> {% if noticia.imagen %}Sí{% else %}No{% endif %}</p>
+        </div>
+        
+        <div class="mb-6">
+            <span class="text-gray-600">{{ noticia.fecha|date:"d/m/Y" }}</span>
+            {% if noticia.categoria %}
+                <span class="ml-4 text-gray-600">Categoría: {{ noticia.categoria }}</span>
+            {% endif %}
+        </div>
+
+        {% if noticia.imagen %}
+            <div class="flex justify-center mb-8">
+                <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" class="w-1/2 h-auto rounded-lg">
+                <br>
+                <small class="text-gray-500">URL: {{ noticia.imagen.url }}</small>
+            </div>
+        {% else %}
+            <div class="bg-red-100 p-4 mb-4 rounded">
+                <p class="text-red-800">❌ Esta noticia no tiene imagen asignada</p>
+            </div>
+        {% endif %}
+
+        <div class="prose max-w-none ">
+            {{ noticia.texto|safe }}    
+        </div>
+
+        <div class="mt-8">
+            <a href="{% url 'noticias' %}" class="inline-block px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300">
+                Volver a Noticias
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

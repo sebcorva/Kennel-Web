@@ -5,89 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Kennel Club de Chile | Bienvenido a KCC{% endblock %}</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> <!-- Cambiar a Tailwind CSS instalado en el proyecto-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" href="{% static 'img/kennel-club-chile.png' %}" type="image/png">
-    <script>
-        // Configuración de Tailwind con animaciones personalizadas
-        tailwind.config = {
-            theme: {
-                extend: {
-                    keyframes: {
-                        typing: {
-                            "0%": {
-                                width: "0%",
-                                visibility: "hidden"
-                            },
-                            "60%": {
-                                width: "100%"
-                            },
-                            "100%": {
-                                width: "100%"
-                            }
-                        },
-                        blink: {
-                            "50%": {
-                                borderColor: "transparent"
-                            },
-                            "100%": {
-                                borderColor: "white"
-                            }
-                        }
-                    },
-                    animation: {
-                        typing: "typing 5s steps(20) infinite, blink .7s infinite"
-                    }
-                },
-            },
-            plugins: [],
-        }
-    </script>
-    <style>
-        /* Estilos específicos para los iconos sociales */
-        .social-icon {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            width: 40px !important;
-            height: 40px !important;
-            border-radius: 50% !important;
-            transition: transform 0.2s ease !important;
-            text-decoration: none !important;
-        }
-        
-        .social-icon:hover {
-            transform: scale(1.1) !important;
-        }
-        
-        .social-icon svg {
-            width: 20px !important;
-            height: 20px !important;
-            fill: white !important;
-        }
-        
-        /* Colores específicos para cada red social */
-        .social-instagram {
-            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%) !important;
-        }
-        
-        .social-facebook {
-            background-color: #1877f2 !important;
-        }
-        
-        .social-tiktok {
-            background-color: #000000 !important;
-        }
-        
-        .social-youtube {
-            background-color: #ff0000 !important;
-        }
-        
-        .social-whatsapp {
-            background-color: #25d366 !important;
-        }
-    </style>
+
 </head>
 <body class="font-sans text-gray-800 antialiased min-h-screen flex flex-col bg-slate-50">
     <header class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
