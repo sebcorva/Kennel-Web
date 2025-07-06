@@ -189,3 +189,42 @@ def detalle_preguntas_frecuentes(request, categoria):
 
 def contacto(request):
     return render(request, 'contacto.html')
+
+def test(request):
+    """Vista de prueba que incluye diagnóstico de archivos estáticos"""
+    # Información básica del sistema
+    system_info = {
+        'url_path': request.path,
+        'method': request.method,
+        'user': str(request.user),
+    }
+    
+    # Información de archivos estáticos (con manejo de errores)
+    static_info = {
+        'STATIC_URL': '/static/',
+        'STATIC_ROOT': 'No disponible',
+        'STATIC_ROOT_EXISTS': False,
+        'STATIC_ROOT_CONTENTS': [],
+    }
+    
+    try:
+        from django.conf import settings
+        import os
+        
+        static_info['STATIC_URL'] = getattr(settings, 'STATIC_URL', '/static/')
+        static_info['STATIC_ROOT'] = getattr(settings, 'STATIC_ROOT', 'No configurado')
+        
+        if static_info['STATIC_ROOT'] and static_info['STATIC_ROOT'] != 'No configurado':
+            static_info['STATIC_ROOT_EXISTS'] = os.path.exists(static_info['STATIC_ROOT'])
+            if static_info['STATIC_ROOT_EXISTS']:
+                try:
+                    static_info['STATIC_ROOT_CONTENTS'] = os.listdir(static_info['STATIC_ROOT'])
+                except:
+                    static_info['STATIC_ROOT_CONTENTS'] = ['Error al listar archivos']
+    except Exception as e:
+        static_info['STATIC_ROOT_CONTENTS'] = [f'Error: {str(e)}']
+    
+    return render(request, 'test.html', {
+        'static_info': static_info,
+        'system_info': system_info
+    })

@@ -1,0 +1,200 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ajustes responsivos */
+@media (min-width: 640px) {
+    .min-width-container {
+        min-width: 640px;
+    }
+}
+
+@media (min-width: 768px) {
+    .min-width-container {
+        min-width: 768px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .min-width-container {
+        min-width: 1024px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .min-width-container {
+        min-width: 1280px;
+        max-width: 1280px;
+    }
+}
+
+/* Asegurar que el body y html tengan el ancho mínimo */
+html, body {
+    min-width: 320px;
+    overflow-x: auto;
+}
+
+#fondoHome {
+    background-image: url('../img/home-dog.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 60vh;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+}
+
+.content-section {
+    background-color: white;
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+/* Card de video */
+.card {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .card-video {
+    flex: 3;
+    padding: 24px;
+    display: flex;
+  }
+  .card-video iframe {
+    width: 100%;
+    height: 360px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    border: none;
+  }
+  .card-content {
+    flex: 1;
+    display: flex;
+  }
+  .card-content h3 {
+    font-size: 1.5rem;
+    font-w
+  /* Noticias */
+  .noticias-container {
+    padding: 2rem;
+}
+
+  .card-content p {
+    color: #444;
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+  .card-content button {
+    width: 100%;
+    padding: 12px 0;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: #2563eb;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .card-content button:last-child {
+    background: #e11d48;
+  }
+  .card-content button:hover {
+    opacity: 0.9;
+  }
+
+
+.ver-mas-btn {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ver-mas-btn:hover {
+    background-color: #2563eb;
+}
+
+.noticia-fecha {
+    margin-left: 1rem;
+    color: #6b7280;
+}
+
+    opacity: 0.9;
+  }
+
+
+.ver-mas-btn {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ver-mas-btn:hover {
+    background-color: #2563eb;
+}
+
+.noticia-fecha {
+    margin-left: 1rem;
+    color: #6b7280;
+}
+
+/* Animación de typing para el título KENNEL */
+@keyframes typing {
+    0% {
+        width: 0%;
+        visibility: hidden;
+    }
+    60% {
+        width: 100%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+    100% {
+        border-color: white;
+    }
+}
+
+.animate-typing {
+    animation: typing 5s steps(20) infinite, blink 0.7s infinite;
+}
+
+/* Overlay para el fondo de home */
+.bg-overlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Clases de colores para títulos y párrafos */
+.title-color {
+    color: #0B3658;
+}
+
+.paragraph-color {
+    color: #1a4a6b;
+}

@@ -18,4 +18,5 @@ urlpatterns = [
     path('preguntas-frecuentes/', views.preguntas_frecuentes, name='preguntas_frecuentes'),
     path('preguntas-frecuentes/<str:categoria>/', views.detalle_preguntas_frecuentes, name='detalle_preguntas_frecuentes'),
     path('contacto/', views.contacto, name='contacto'),
+    path('test/', views.test, name='test'),
 ]

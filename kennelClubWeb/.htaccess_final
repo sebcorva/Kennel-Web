@@ -1,0 +1,49 @@
+RewriteEngine On
+
+# Configuración FINAL para cPanel con Django
+# Prioridad máxima a archivos estáticos
+
+# 1. Servir archivos estáticos ANTES que cualquier otra cosa
+RewriteCond %{REQUEST_URI} ^/static/(.*)$
+RewriteRule ^static/(.*)$ staticfiles/$1 [L]
+
+# 2. Servir archivos de media
+RewriteCond %{REQUEST_URI} ^/media/(.*)$
+RewriteRule ^media/(.*)$ media/$1 [L]
+
+# 3. Servir archivos que existen físicamente
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(.*)$ - [L]
+
+# 4. Servir directorios que existen físicamente
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.*)$ - [L]
+
+# 5. Todo lo demás a Django (ÚLTIMA PRIORIDAD)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ passenger_wsgi.py/$1 [QSA,L]
+
+# Permitir TODOS los archivos estáticos
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|webp|html|txt)$">
+    Allow from all
+    Require all granted
+</FilesMatch>
+
+# Denegar archivos Python
+<Files "*.py">
+    Deny from all
+</Files>
+
+# Configuración específica para directorios
+<Directory "staticfiles">
+    Options -Indexes
+    Allow from all
+    Require all granted
+</Directory>
+
+<Directory "media">
+    Options -Indexes
+    Allow from all
+    Require all granted
+</Directory> 

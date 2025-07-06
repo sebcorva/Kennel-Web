@@ -3,11 +3,11 @@
 {% block title %}{{ noticia.titulo }} | Kennel Club de Chile{% endblock %}
 
 {% block content %}
-<div class="noticias-container text-center justify-center align-center">
+<div class="noticias-container text-start justify-center align-center">
     <div class="">
-        <h1 class="text-4xl font-bold text-center mb-12 title-color py-8">{{ noticia.titulo }}</h1>
+        <h1 class="text-4xl font-bold text-center title-color">{{ noticia.titulo }}</h1>
         
-        <div class="mb-6">
+        <div class="mb-6 mt-2 text-center">
             <span class="text-gray-600">{{ noticia.fecha|date:"d/m/Y" }}</span>
             {% if noticia.categoria %}
                 <span class="ml-4 text-gray-600">Categoría: {{ noticia.categoria }}</span>
@@ -16,11 +16,11 @@
 
         {% if noticia.imagen %}
             <div class="flex justify-center mb-8">
-                <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" class="w-1/2 h-auto rounded-lg">
+                <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" class="w-1/6 h-auto rounded-lg">
             </div>
         {% endif %}
 
-        <div class="prose max-w-none ">
+        <div class="prose w-2/4 text-justify mx-auto">
             {{ noticia.texto|safe }}    
         </div>
 

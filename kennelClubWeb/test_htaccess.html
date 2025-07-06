@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test .htaccess - Kennel Club Chile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .test-link {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .test-link:hover {
+            background-color: #0056b3;
+        }
+        .image-test {
+            max-width: 200px;
+            border: 1px solid #ddd;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Test de .htaccess - Kennel Club Chile</h1>
+        
+        <div class="test-section success">
+            <h3>✅ Servidor web funcionando</h3>
+            <p>Si puedes ver esta página, el servidor web está funcionando correctamente.</p>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔍 Pruebas de archivos estáticos (sin .htaccess)</h3>
+            <p>Estos enlaces deberían funcionar si el servidor web está configurado correctamente:</p>
+            
+            <a href="/staticfiles/admin/css/base.css" class="test-link" target="_blank">
+                CSS de Django Admin (directo a staticfiles)
+            </a>
+            
+            <a href="/staticfiles/css/style.css" class="test-link" target="_blank">
+                CSS personalizado (directo a staticfiles)
+            </a>
+            
+            <a href="/staticfiles/img/kennel-club-chile.png" class="test-link" target="_blank">
+                Logo (directo a staticfiles)
+            </a>
+        </div>
+        
+        <div class="test-section">
+            <h3>🖼️ Visualización directa de imágenes</h3>
+            <p>Si las imágenes se cargan correctamente, deberías verlas aquí:</p>
+            
+            <img src="/staticfiles/img/kennel-club-chile.png" alt="Logo" class="image-test" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div style="display:none; color:red; margin:10px;">❌ Imagen no cargada</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔗 Enlaces de prueba</h3>
+            <a href="/test/" class="test-link">Test de Django</a>
+            <a href="/" class="test-link">Página principal</a>
+        </div>
+        
+        <div class="test-section">
+            <h3>📋 Instrucciones</h3>
+            <p>Si los archivos de staticfiles se cargan correctamente, el problema está en el .htaccess.</p>
+            <p>Si no se cargan, el problema está en la configuración del servidor web.</p>
+        </div>
+    </div>
+</body>
+</html> 

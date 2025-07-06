@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Public HTML - Kennel Club Chile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .test-link {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .test-link:hover {
+            background-color: #0056b3;
+        }
+        .image-test {
+            max-width: 200px;
+            border: 1px solid #ddd;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Test de Public HTML - Kennel Club Chile</h1>
+        
+        <div class="test-section success">
+            <h3>✅ Configuración detectada</h3>
+            <p>Tu aplicación Django está en: <code>/home/kennelcl/kennelClubWeb</code></p>
+            <p>El servidor web sirve desde: <code>/home/kennelcl/public_html</code></p>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔍 Pruebas de archivos estáticos (desde public_html)</h3>
+            <p>Estos enlaces deberían funcionar con la nueva configuración del .htaccess:</p>
+            
+            <a href="/static/admin/css/base.css" class="test-link" target="_blank">
+                CSS de Django Admin
+            </a>
+            
+            <a href="/static/css/style.css" class="test-link" target="_blank">
+                CSS personalizado
+            </a>
+            
+            <a href="/static/img/kennel-club-chile.png" class="test-link" target="_blank">
+                Logo
+            </a>
+        </div>
+        
+        <div class="test-section">
+            <h3>🖼️ Visualización directa de imágenes</h3>
+            <p>Si las imágenes se cargan correctamente, deberías verlas aquí:</p>
+            
+            <img src="/static/img/kennel-club-chile.png" alt="Logo" class="image-test" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div style="display:none; color:red; margin:10px;">❌ Imagen no cargada</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📋 Instrucciones para el .htaccess en public_html</h3>
+            <p>Reemplaza el contenido de tu .htaccess en public_html con:</p>
+            <pre style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto;">
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/kennelcl/kennelClubWeb"
+PassengerBaseURI "/"
+PassengerPython "/home/kennelcl/virtualenv/kennelClubWeb/3.13/bin/python"
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+
+# Configuración para archivos estáticos
+RewriteEngine On
+
+# Servir archivos estáticos desde la aplicación Django
+RewriteCond %{REQUEST_URI} ^/static/(.*)$
+RewriteRule ^static/(.*)$ /home/kennelcl/kennelClubWeb/staticfiles/$1 [L]
+
+# Servir archivos de media desde la aplicación Django
+RewriteCond %{REQUEST_URI} ^/media/(.*)$
+RewriteRule ^media/(.*)$ /home/kennelcl/kennelClubWeb/media/$1 [L]
+
+# Todo lo demás a Django
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /home/kennelcl/kennelClubWeb/passenger_wsgi.py/$1 [QSA,L]
+
+# Permitir archivos estáticos
+&lt;FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|webp|html|txt)$"&gt;
+    Allow from all
+&lt;/FilesMatch&gt;</pre>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔗 Enlaces de prueba</h3>
+            <a href="/test/" class="test-link">Test de Django</a>
+            <a href="/" class="test-link">Página principal</a>
+        </div>
+    </div>
+</body>
+</html> 

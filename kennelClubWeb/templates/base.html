@@ -87,6 +87,77 @@
         .social-whatsapp {
             background-color: #25d366 !important;
         }
+        
+        /* Estilos para listas de CKEditor */
+        .prose ul, .prose ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        
+        .prose ul {
+            list-style-type: disc;
+        }
+        
+        .prose ol {
+            list-style-type: decimal;
+        }
+        
+        .prose li {
+            margin: 0.5em 0;
+            line-height: 1.6;
+        }
+        
+        .prose ul ul, .prose ol ol {
+            margin: 0.5em 0;
+        }
+        
+        .prose ul ul {
+            list-style-type: circle;
+        }
+        
+        .prose ol ol {
+            list-style-type: lower-alpha;
+        }
+        
+        .prose ul ol, .prose ol ul {
+            margin: 0.5em 0;
+        }
+        
+        /* Estilos para tablas de CKEditor */
+        .prose table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+            font-size: 0.9em;
+        }
+        
+        .prose table th,
+        .prose table td {
+            border: 1px solid #d1d5db;
+            padding: 0.75em;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .prose table th {
+            background-color: #f3f4f6;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .prose table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        .prose table tr:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .prose table caption {
+            font-weight: 600;
+            margin-bottom: 0.5em;
+            color: #374151;
+        }
     </style>
 </head>
 <body class="font-sans text-gray-800 antialiased min-h-screen flex flex-col bg-slate-50">

@@ -1,0 +1,19 @@
+RewriteEngine On
+
+# Configuración para Django en cPanel - Dejar que Django maneje los estáticos
+
+# Permitir acceso directo a archivos estáticos
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|webp|html|txt)$">
+    Allow from all
+    Require all granted
+</FilesMatch>
+
+# Denegar archivos Python
+<Files "*.py">
+    Deny from all
+</Files>
+
+# Todo va a Django - incluyendo archivos estáticos
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ passenger_wsgi.py/$1 [QSA,L] 

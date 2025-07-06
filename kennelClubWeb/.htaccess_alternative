@@ -1,0 +1,26 @@
+RewriteEngine On
+
+# Configuración alternativa para cPanel
+
+# Servir archivos estáticos directamente desde staticfiles
+RewriteCond %{REQUEST_URI} ^/static/(.*)$
+RewriteRule ^static/(.*)$ staticfiles/$1 [L]
+
+# Servir archivos de media directamente
+RewriteCond %{REQUEST_URI} ^/media/(.*)$
+RewriteRule ^media/(.*)$ media/$1 [L]
+
+# Todo lo demás a Django
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ passenger_wsgi.py/$1 [QSA,L]
+
+# Permitir todos los archivos estáticos
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|webp|html)$">
+    Allow from all
+</FilesMatch>
+
+# Denegar archivos Python
+<Files "*.py">
+    Deny from all
+</Files> 

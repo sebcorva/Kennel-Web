@@ -1,0 +1,26 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/kennelcl/kennelClubWeb"
+PassengerBaseURI "/"
+PassengerPython "/home/kennelcl/virtualenv/kennelClubWeb/3.13/bin/python"
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+
+# Configuración simple para archivos estáticos
+RewriteEngine On
+
+# Servir archivos estáticos desde la aplicación Django
+RewriteCond %{REQUEST_URI} ^/static/(.*)$
+RewriteRule ^static/(.*)$ /home/kennelcl/kennelClubWeb/staticfiles/$1 [L]
+
+# Servir archivos de media desde la aplicación Django
+RewriteCond %{REQUEST_URI} ^/media/(.*)$
+RewriteRule ^media/(.*)$ /home/kennelcl/kennelClubWeb/media/$1 [L]
+
+# Todo lo demás a Django
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /home/kennelcl/kennelClubWeb/passenger_wsgi.py/$1 [QSA,L]
+
+# Permitir archivos estáticos
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|webp|html|txt)$">
+    Allow from all
+</FilesMatch> 
