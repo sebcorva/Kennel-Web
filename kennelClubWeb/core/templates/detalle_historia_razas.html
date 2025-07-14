@@ -4,66 +4,50 @@
 {% block title %}{{ historia.titulo }}{% endblock %}
 
 {% block content %}
-<div class="w-full mt-7">
-    <!-- Botón de regreso y título -->
-    <div class="mb-6 relative">
-        <a href="{% url 'historia_razas' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200 absolute left-0 top-0 text-sm md:text-base">
-            <svg class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            <span class="hidden sm:inline text-sm md:text-base">Volver a Historias de Razas</span>
-            <span class="sm:hidden text-sm md:text-base">Volver</span>
-        </a>
-        
+<div class="w-full">
+    <!-- Título -->
+    <div class="mb-10 text-center">
+        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold title-color px-4">{{ historia.titulo }}</h1>
     </div>
-    <!-- Título centrado -->
-     <div class="flex justify-center items-end py-10">
-        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold title-color text-center px-4">{{ historia.titulo }}</h1>
-     </div>
     
     {% if fotos %}
     <!-- Carrusel de fotos -->
-    <div id="controls-carousel" class="w-full max-w-4xl mx-auto" data-carousel="static">
-        <!-- Carousel wrapper -->
-        <div class="sticky h-70 overflow-hidden rounded-lg md:h-150">
+    <div class="w-full max-w-3xl mx-auto relative">
+        <div class="h-96 overflow-hidden rounded-lg md:h-[500px]">
             {% for foto in fotos %}
-            <div class="{% if forloop.first %}active{% else %}hidden{% endif %} duration-700 ease-in-out" data-carousel-item="{% if forloop.first %}active{% endif %}">
+            <div class="carousel-slide {% if forloop.first %}block{% else %}hidden{% endif %} w-full h-full">
                 <img src="{{ foto.imagen.url }}" 
                      class="w-full h-full object-contain" 
                      alt="{{ historia.titulo }} - Foto {{ forloop.counter }}">
             </div>
             {% endfor %}
             
-            <!-- Slider controls -->
-            <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-blue-500 dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg class="w-4 h-4 text-blue-600 dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                    </svg>
-                    <span class="sr-only">Previous</span>
-                </span>
-            </button>
-            <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-blue-500 dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg class="w-4 h-4 text-blue-600 dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                    </svg>
-                    <span class="sr-only">Next</span>
-                </span>
-            </button>
-            
-            <!-- Indicadores de posición -->
-            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-40">
+            <!-- Indicadores -->
+            {% if fotos|length > 1 %}
+            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
                 {% for foto in fotos %}
                 <button type="button" 
-                        class="w-3 h-3 rounded-full {% if forloop.first %}bg-blue-600{% else %}bg-gray-300{% endif %} transition-colors duration-200"
-                        data-carousel-slide-to="{{ forloop.counter0 }}"
-                        data-carousel-target="controls-carousel"
-                        aria-label="Slide {{ forloop.counter }}">
+                        class="carousel-indicator w-3 h-3 rounded-full {% if forloop.first %}bg-blue-600{% else %}bg-gray-300{% endif %} transition-colors duration-200"
+                        data-index="{{ forloop.counter0 }}">
                 </button>
                 {% endfor %}
             </div>
+            {% endif %}
         </div>
+        
+        {% if fotos|length > 1 %}
+        <!-- Controles de navegación -->
+        <button type="button" class="carousel-prev absolute top-1/2 left-2 transform -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 rounded-full bg-sky-200 hover:bg-sky-300 transition-colors duration-200 shadow-lg">
+            <svg class="w-6 h-6 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        <button type="button" class="carousel-next absolute top-1/2 right-2 transform -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 rounded-full bg-sky-200 hover:bg-sky-300 transition-colors duration-200 shadow-lg">
+            <svg class="w-6 h-6 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+        </button>
+        {% endif %}
     </div>
     {% else %}
     <!-- Mensaje cuando no hay fotos -->
@@ -136,6 +120,72 @@
 </div>
 {% endif %}
 
-<!-- Script para el carrusel (Flowbite) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+<!-- Botón de volver -->
+<div class="mt-8 text-center">
+    <a href="{% url 'historia_razas' %}" class="inline-block px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300">
+        Volver a Razas
+    </a>
+</div>
+
+<!-- Script para el carrusel -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('.w-full.max-w-3xl.mx-auto');
+    if (!carousel) return;
+    
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const prevBtn = carousel.querySelector('.carousel-prev');
+    const nextBtn = carousel.querySelector('.carousel-next');
+    const indicators = carousel.querySelectorAll('.carousel-indicator');
+    
+    let currentIndex = 0;
+    
+    function showSlide(index) {
+        // Ocultar todas las imágenes
+        slides.forEach(slide => slide.classList.add('hidden'));
+        slides.forEach(slide => slide.classList.remove('block'));
+        
+        // Mostrar la imagen actual
+        if (slides[index]) {
+            slides[index].classList.remove('hidden');
+            slides[index].classList.add('block');
+        }
+        
+        // Actualizar indicadores
+        indicators.forEach((indicator, i) => {
+            if (i === index) {
+                indicator.classList.remove('bg-gray-300');
+                indicator.classList.add('bg-blue-600');
+            } else {
+                indicator.classList.remove('bg-blue-600');
+                indicator.classList.add('bg-gray-300');
+            }
+        });
+    }
+    
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+    }
+    
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(currentIndex);
+    }
+    
+    // Event listeners
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            currentIndex = index;
+            showSlide(currentIndex);
+        });
+    });
+    
+    // Mostrar la primera imagen al cargar
+    showSlide(0);
+});
+</script>
 {% endblock %} 

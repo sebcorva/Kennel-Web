@@ -94,3 +94,31 @@ ClassicEditor.builtinPlugins = [
     HorizontalLine,
     LinkImage
 ];
+
+// Configuración para permitir archivos PDF y otros documentos
+ClassicEditor.defaultConfig = {
+    toolbar: {
+        items: [
+            'heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'uploadImage', 'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', '|',
+            'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+            'alignment', '|', 'horizontalLine', '|', 'removeFormat', 'insertTable', '|',
+            'undo', 'redo'
+        ]
+    },
+    image: {
+        upload: {
+            types: ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt']
+        }
+    },
+    // Configuración para permitir contenido HTML personalizado (incluyendo enlaces a PDF)
+    htmlSupport: {
+        allow: [
+            {
+                name: /.*/,
+                attributes: true,
+                classes: true,
+                styles: true
+            }
+        ]
+    }
+};

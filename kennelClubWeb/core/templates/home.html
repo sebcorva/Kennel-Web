@@ -1,7 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Bienvenido | Kennel Club de Chile{% endblock %}
+{% block title %}Kennel Club de Chile | Organización Oficial FCI en Chile{% endblock %}
+
+{% block meta_description %}Kennel Club de Chile (KCC) - La única organización oficial en Chile reconocida por la FCI. Registro genealógico de perros de raza, exposiciones caninas, eventos, crianza responsable y más.{% endblock %}
+
+{% block meta_keywords %}kennel club chile, perros de raza, exposiciones caninas, FCI, registro genealógico, eventos perros, crianza responsable, Chile, KCC{% endblock %}
+
+{% block og_title %}Kennel Club de Chile | Organización Oficial FCI en Chile{% endblock %}
+
+{% block og_description %}Descubre el Kennel Club de Chile, la única organización oficial reconocida por la FCI. Registro genealógico, exposiciones caninas y eventos para amantes de los perros de raza.{% endblock %}
+
+{% block twitter_title %}Kennel Club de Chile | Organización Oficial FCI en Chile{% endblock %}
+
+{% block twitter_description %}Descubre el Kennel Club de Chile, la única organización oficial reconocida por la FCI. Registro genealógico, exposiciones caninas y eventos para amantes de los perros de raza.{% endblock %}
 
 {% block content %}
 <div id="fondoHome" class="min-h-screen">
@@ -12,13 +24,13 @@
                 <h1 class="text-8xl font-extrabold animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-white pr-5">KENNEL</h1>
                 <h2 class="mb-4 text-4xl font-bold">CLUB DE CHILE</h2>
                 <div class="flex flex-col space-y-2 translate-y-10">
-                    <a href="https://www.youtube.com/@kennelclubchile" class="flex items-center space-x-2 hover:text-blue-600 transition-colors">
+                    <a href="https://www.youtube.com/@kennelclubchile" class="flex items-center space-x-2 hover:text-red-600 transition-colors">
                         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                         </svg>
                         <span>Kennel Club de Chile</span>
                     </a>
-                    <a href="https://www.facebook.com/@kennelclubchile" class="flex items-center space-x-2 hover:text-blue-600 transition-colors">
+                    <a href="https://www.facebook.com/@kennelclubchile" class="flex items-center space-x-2 hover:text-blue-800 transition-colors">
                         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                         </svg>
@@ -32,7 +44,7 @@
 
 <div class="card bg-gradient-to-br from-white to-gray-50 shadow-2xl border border-gray-100 flex flex-col lg:flex-row">
     <div class="card-video lg:flex-3 flex-1">
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/rdX9R4-YREQ?si=XcuDIZELB8TKutJd&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/qT1rFgjF1xE?si=VfFKvMFVx0R2oI-W" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
     <div class="card-content flex flex-col items-stretch justify-between h-full p-5 lg:flex-1">
         <div>
@@ -58,4 +70,77 @@
         </div>
     </div>
 </div>
+
+<div class="flex flex-col items-center justify-center mt-8 bg-gray-200 w-full">
+    <p class="text-2xl font-bold title-color my-5">Últimas noticias</p>
+    <!-- Grid de noticias -->
+    {% if ultimas_noticias %}
+    <div class="noticias-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 900px; margin: 0 auto; padding: 0 1rem; margin-bottom: 2rem;">
+        {% for noticia in ultimas_noticias %}
+        <div class="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden flex flex-col" style="max-width: 100%; height: 100%;">
+            <a href="{% url 'detalle_noticia' noticia.id %}">
+                {% if noticia.imagen %}
+                    <img class="w-full h-auto rounded-t-lg scale-110 transition-all duration-300 hover:scale-100" src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" style="width: 100%; height: 150px; object-fit: cover;" />
+                {% else %}
+                    <img class="rounded-t-lg" src="https://via.placeholder.com/300x150" alt="Imagen no disponible" style="width: 100%; height: 150px; object-fit: cover;" />
+                {% endif %}
+            </a>
+            <div class="p-3 flex flex-col flex-grow">
+                <a href="{% url 'detalle_noticia' noticia.id %}">
+                    <h5 class="mb-2 text-xs font-bold tracking-tight title-color" style="height: 32px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ noticia.titulo }}</h5>
+                </a>
+                <p class="mb-2 font-light text-xs flex-grow paragraph-color">{{ noticia.texto|safe|striptags|truncatechars:100 }}</p>
+                <div class="flex justify-between items-center mt-auto">
+                    <span class="text-xs text-gray-500">{{ noticia.fecha|date:"d/m/Y" }}</span>
+                    <a href="{% url 'detalle_noticia' noticia.id %}" class="inline-flex items-center px-2 py-1 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Ver más
+                    </a>
+                </div>
+                
+                <!-- Categoría -->
+                {% if noticia.categoria %}
+                <div class="flex justify-center items-center mt-2">
+                    <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-green-600 rounded-full">
+                        {{ noticia.categoria }}
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Botón para ver todas las noticias -->
+    <div class="flex justify-center mb-8">
+        <a href="{% url 'noticias' %}" class="inline-flex items-center px-6 py-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            Ver todas las noticias
+        </a>
+    </div>
+    {% else %}
+    <div class="text-center mb-8">
+        <p class="text-gray-500 paragraph-color">No hay noticias disponibles en este momento.</p>
+    </div>
+    {% endif %}
+</div>
+
+
+
+
+
+<style>
+    @media (max-width: 1024px) {
+        .noticias-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+    }
+    @media (max-width: 640px) {
+        .noticias-grid {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+
 {% endblock %} 

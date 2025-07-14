@@ -1,10 +1,70 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.utils import timezone
 from .models import Noticias, Juez, TipoJuez, Evento, Ranking, Reglamentos, Crianza, HistoriaRazas, FotoHistoriaRaza, Tramites, PreguntasFrecuentes
 from datetime import datetime, timedelta
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    # Obtener las últimas 3 noticias ordenadas por fecha (más reciente primero)
+    ultimas_noticias = Noticias.objects.all().order_by('-fecha')[:3]
+    return render(request, 'home.html', {'ultimas_noticias': ultimas_noticias})
+
+def sitemap_xml(request):
+    """Genera un sitemap XML dinámico"""
+    # URLs estáticas principales
+    static_urls = [
+        {'url': '/', 'priority': '1.0', 'changefreq': 'daily'},
+        {'url': '/noticias/', 'priority': '0.8', 'changefreq': 'daily'},
+        {'url': '/eventos/', 'priority': '0.8', 'changefreq': 'weekly'},
+        {'url': '/jueces-nacionales/', 'priority': '0.7', 'changefreq': 'monthly'},
+        {'url': '/rankings/', 'priority': '0.8', 'changefreq': 'weekly'},
+        {'url': '/historia-razas/', 'priority': '0.7', 'changefreq': 'monthly'},
+        {'url': '/crianza/', 'priority': '0.7', 'changefreq': 'monthly'},
+        {'url': '/tramites/', 'priority': '0.6', 'changefreq': 'monthly'},
+        {'url': '/reglamentos/', 'priority': '0.6', 'changefreq': 'monthly'},
+        {'url': '/preguntas-frecuentes/', 'priority': '0.6', 'changefreq': 'monthly'},
+        {'url': '/quienes-somos/', 'priority': '0.5', 'changefreq': 'yearly'},
+        {'url': '/contacto/', 'priority': '0.5', 'changefreq': 'yearly'},
+    ]
+    
+    # URLs dinámicas de noticias
+    noticias = Noticias.objects.all().order_by('-fecha')
+    noticia_urls = []
+    for noticia in noticias:
+        noticia_urls.append({
+            'url': f'/noticias/{noticia.id}/',
+            'priority': '0.6',
+            'changefreq': 'monthly',
+            'lastmod': noticia.fecha.strftime('%Y-%m-%d')
+        })
+    
+    # URLs dinámicas de historias de razas
+    historias = HistoriaRazas.objects.all()
+    historia_urls = []
+    for historia in historias:
+        historia_urls.append({
+            'url': f'/historia-razas/{historia.id}/',
+            'priority': '0.5',
+            'changefreq': 'yearly'
+        })
+    
+    context = {
+        'static_urls': static_urls,
+        'noticia_urls': noticia_urls,
+        'historia_urls': historia_urls,
+        'base_url': request.build_absolute_uri('/').rstrip('/')
+    }
+    
+    xml_content = render_to_string('sitemap.xml', context)
+    return HttpResponse(xml_content, content_type='application/xml')
+
+def robots_txt(request):
+    """Sirve el archivo robots.txt"""
+    robots_content = render_to_string('robots.txt')
+    return HttpResponse(robots_content, content_type='text/plain')
 
 def noticias(request):
     noticias = Noticias.objects.all().order_by('-fecha')
@@ -189,3 +249,16 @@ def detalle_preguntas_frecuentes(request, categoria):
 
 def contacto(request):
     return render(request, 'contacto.html')
+
+def login(request):
+    error = None
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            error = 'Nombre de usuario o contraseña incorrectos.'
+    return render(request, 'login.html', {'error': error})

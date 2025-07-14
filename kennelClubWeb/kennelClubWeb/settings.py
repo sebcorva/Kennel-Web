@@ -131,6 +131,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # CKEditor 5 settings
 customColorPalette = [
     {"color": "hsl(4, 90%, 58%)", "label": "Red"},
@@ -169,7 +171,7 @@ CKEDITOR_5_CONFIGS = {
                 'alignCenter',
             ],
             'upload': {
-                'types': ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff'],
+                'types': ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'],
             }
         },
         'table': {

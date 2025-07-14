@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://kennelclubdechile.cl/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /static/admin/
+Disallow: /ckeditor5/
+
+# Allow important directories
+Allow: /static/css/
+Allow: /static/js/
+Allow: /static/img/
+Allow: /static/uploads/
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1 
