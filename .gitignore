@@ -1,0 +1,48 @@
+# .gitignore para el directorio raíz del proyecto
+
+# Carpeta de scripts
+Scripts/
+
+# Entorno virtual de Python
+venv/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Archivos de entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log 
+
+#otros archivos
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+*.wim
+*.iso
+*.img
+*.exe

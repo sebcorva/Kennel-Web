@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django import forms
 from django.utils.html import format_html
+from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import Noticias, Raza, Especialidad, TipoJuez, Licencia, Juez, Evento, Ranking, Reglamentos, Crianza, HistoriaRazas, FotoHistoriaRaza, Club, Tramites, ArchivoTramite, PreguntasFrecuentes
 
 @admin.register(Noticias)
@@ -9,6 +10,9 @@ class NoticiasAdmin(admin.ModelAdmin):
     list_filter = ('categoria', 'fecha')
     search_fields = ('titulo', 'texto')
     date_hierarchy = 'fecha'
+    formfield_overrides = {
+        'texto': {'widget': CKEditor5Widget(config_name='extends')}
+    }
 
 
 @admin.register(Raza)
@@ -142,6 +146,9 @@ class ReglamentosAdmin(admin.ModelAdmin):
 class CrianzaAdmin(admin.ModelAdmin):
     list_display = ('titulo',)
     search_fields = ('titulo', 'contenido')
+    formfield_overrides = {
+        'contenido': {'widget': CKEditor5Widget(config_name='extends')}
+    }
     fieldsets = (
         ('Información de Crianza', {
             'fields': ('titulo', 'contenido')
@@ -209,6 +216,9 @@ class ClubAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'logo_preview', 'link')
     search_fields = ('titulo', 'descripcion')
     readonly_fields = ('logo_preview',)
+    formfield_overrides = {
+        'descripcion': {'widget': CKEditor5Widget(config_name='extends')}
+    }
     fieldsets = (
         ('Información del Club', {
             'fields': ('titulo', 'descripcion', 'logo', 'link')

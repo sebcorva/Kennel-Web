@@ -1,13 +1,12 @@
 from django.db import models
 from django.core.validators import RegexValidator
-from ckeditor.fields import RichTextField
-from ckeditor_uploader.fields import RichTextUploadingField
+from django_ckeditor_5.fields import CKEditor5Field
 
 # Create your models here.
 
 class Noticias(models.Model):
     titulo = models.CharField(max_length=200)
-    texto = RichTextUploadingField(blank=True, null=True)
+    texto = CKEditor5Field(blank=True, null=True)
     fecha = models.DateTimeField(auto_now_add=True)
     imagen = models.ImageField(upload_to='noticias/', null=True, blank=True)
     categoria = models.CharField(max_length=100)
@@ -165,7 +164,7 @@ class Reglamentos(models.Model):
 
 class Crianza(models.Model):
     titulo = models.CharField(max_length=200)
-    contenido = RichTextUploadingField(blank=True, null=True)
+    contenido = CKEditor5Field(blank=True, null=True)
     
     def __str__(self):
         return self.titulo
@@ -177,7 +176,7 @@ class Crianza(models.Model):
 
 class Club(models.Model):
     titulo = models.CharField(max_length=200)
-    descripcion = RichTextUploadingField(blank=True, null=True)
+    descripcion = CKEditor5Field(blank=True, null=True)
     logo = models.ImageField(upload_to='clubes/', null=True, blank=True)
     link = models.URLField(max_length=500, blank=True, null=True)
     
@@ -235,7 +234,7 @@ class Tramites(models.Model):
 
 class ArchivoTramite(models.Model):
     tramite = models.ForeignKey(Tramites, on_delete=models.CASCADE, related_name='archivos')
-    archivo = models.FileField(upload_to='tramites/archivos/')
+    archivo = models.FileField(upload_to='tramites/')
     nombre_archivo = models.CharField(max_length=200, blank=True, null=True)
     fecha_subida = models.DateTimeField(auto_now_add=True)
     

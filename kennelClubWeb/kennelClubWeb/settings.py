@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ckeditor',
-    'ckeditor_uploader',
+    'django_ckeditor_5',
     'core',
 ]
 
@@ -132,19 +131,86 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-# CKEditor settings
-CKEDITOR_CONFIGS = {
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# CKEditor 5 settings
+customColorPalette = [
+    {"color": "hsl(4, 90%, 58%)", "label": "Red"},
+    {"color": "hsl(340, 82%, 52%)", "label": "Pink"},
+    {"color": "hsl(291, 64%, 42%)", "label": "Purple"},
+    {"color": "hsl(262, 52%, 47%)", "label": "Deep Purple"},
+    {"color": "hsl(231, 48%, 48%)", "label": "Indigo"},
+    {"color": "hsl(207, 90%, 54%)", "label": "Blue"},
+]
+
+CKEDITOR_5_CONFIGS = {
     'default': {
-        'toolbar': 'full',
-        'height': 300,
-        'width': '100%',
+        'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+                   'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
+
     },
+    'extends': {
+        'blockToolbar': [
+            'paragraph', 'heading1', 'heading2', 'heading3',
+            '|',
+            'bulletedList', 'numberedList',
+            '|',
+            'blockQuote',
+        ],
+        'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'uploadImage', 'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', '|',
+                   'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                   'alignment', '|', 'horizontalLine', '|', 'removeFormat', 'insertTable',],
+        'image': {
+            'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
+                       'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side', '|'],
+            'styles': [
+                'full',
+                'side',
+                'alignLeft',
+                'alignRight',
+                'alignCenter',
+            ],
+            'upload': {
+                'types': ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'],
+            }
+        },
+        'table': {
+            'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells',
+                              'tableProperties', 'tableCellProperties'],
+            'tableProperties': {
+                'borderColors': customColorPalette,
+                'backgroundColors': customColorPalette
+            },
+            'tableCellProperties': {
+                'borderColors': customColorPalette,
+                'backgroundColors': customColorPalette
+            }
+        },
+        'heading': {
+            'options': [
+                {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},
+                {'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1'},
+                {'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2'},
+                {'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3'}
+            ]
+        }
+    }
 }
-# Media files (Uploaded files)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-CKEDITOR_UPLOAD_PATH = 'uploads/'
-CKEDITOR_ALLOW_NONIMAGE_FILES = True
+
+# Media files (Uploaded files) - Usando static/uploads
+MEDIA_URL = '/static/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'uploads')
+
+# Deshabilitar validación de Django para desarrollo
+import django.contrib.staticfiles.utils
+django.contrib.staticfiles.utils.check_settings = lambda *args, **kwargs: None
+
+# CKEditor 5 configuration
+CKEDITOR_5_CUSTOM_CSS = None
+
+# CKEditor 5 upload settings
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_5_UPLOAD_PATH = "ck_editor_5/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
