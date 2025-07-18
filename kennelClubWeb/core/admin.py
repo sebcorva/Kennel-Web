@@ -2,18 +2,28 @@ from django.contrib import admin
 from django import forms
 from django.utils.html import format_html
 from django_ckeditor_5.widgets import CKEditor5Widget
-from .models import Noticias, Raza, Especialidad, TipoJuez, Licencia, Juez, Evento, Ranking, Reglamentos, Crianza, HistoriaRazas, FotoHistoriaRaza, Club, Tramites, ArchivoTramite, PreguntasFrecuentes
+from .models import CategoriaNoticias, Noticias, Raza, Especialidad, TipoJuez, Licencia, Juez, Evento, Ranking, Reglamentos, Crianza, HistoriaRazas, FotoHistoriaRaza, Club, Tramites, ArchivoTramite, PreguntasFrecuentes
 
 @admin.register(Noticias)
 class NoticiasAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'fecha', 'categoria')
-    list_filter = ('categoria', 'fecha')
+    list_display = ('titulo', 'fecha', 'categorias_display')
+    list_filter = ('categorias', 'fecha')
     search_fields = ('titulo', 'texto')
     date_hierarchy = 'fecha'
+    filter_horizontal = ('categorias',)
     formfield_overrides = {
         'texto': {'widget': CKEditor5Widget(config_name='extends')}
     }
+    
+    def categorias_display(self, obj):
+        return ", ".join([cat.nombre for cat in obj.categorias.all()])
+    categorias_display.short_description = 'Categorías'
 
+@admin.register(CategoriaNoticias)
+class CategoriaNoticiasAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'codigo_categoria')
+    search_fields = ('nombre', 'codigo_categoria')
+    ordering = ('nombre',)
 
 @admin.register(Raza)
 class RazaAdmin(admin.ModelAdmin):

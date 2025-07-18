@@ -16,30 +16,63 @@
 {% block twitter_description %}Descubre el Kennel Club de Chile, la única organización oficial reconocida por la FCI. Registro genealógico, exposiciones caninas y eventos para amantes de los perros de raza.{% endblock %}
 
 {% block content %}
-<div id="fondoHome" class="min-h-screen">
-    <div class="bg-overlay min-h-screen flex items-center w-full">
+<div id="fondoHome" class="min-h-screen relative">
+    <!-- Imagen de fondo responsive -->
+    <picture class="absolute inset-0 w-full h-full z-0">
+        <source media="(min-width: 1024px)" srcset="{% static 'img/home-large.jpg' %}">
+        <source media="(min-width: 640px)" srcset="{% static 'img//home-large.jpg' %}">
+        <img src="{% static 'img//home-large.jpg' %}" alt="Kennel Club de Chile" class="w-full h-full object-cover lg:object-cover md:object-left-center">
+    </picture>
+    
+    <div class="bg-overlay min-h-screen flex items-center w-full relative z-10">
         <!-- CONTENIDO PRINCIPAL -->
         <div class="flex flex-col items-center justify-start text-white px-4 md:px-8 w-full max-w-4xl -ml-5">
             <div class="text-start justify-start -translate-y-28">
-                <h1 class="text-8xl font-extrabold animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-white pr-5">KENNEL</h1>
-                <h2 class="mb-4 text-4xl font-bold">CLUB DE CHILE</h2>
+                <h1 class="text-9xl lg:text-[11rem] font-extrabold animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-white pr-5">KENNEL</h1>
+                <h2 class="mb-8 text-5xl lg:text-7xl font-bold">CLUB DE CHILE</h2>
+                <p class="text-lg lg:text-2xl text-gray-200 mb-8 mt-10 drop-shadow">Tradición y<br>excelencia canina</p>
+                
+                <div class="flex space-x-4 mt-4 justify-start">
+                    <a href="https://instagram.com/" target="_blank" class="bg-white/80 hover:bg-white rounded-full p-3 transition-all shadow-lg hover:scale-110 transform" aria-label="Instagram">
+                        <svg class="w-6 h-6" fill="url(#instagram-gradient)" viewBox="0 0 24 24">
+                            <defs>
+                                <linearGradient id="instagram-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#f09433"/>
+                                    <stop offset="25%" style="stop-color:#e6683c"/>
+                                    <stop offset="50%" style="stop-color:#dc2743"/>
+                                    <stop offset="75%" style="stop-color:#cc2366"/>
+                                    <stop offset="100%" style="stop-color:#bc1888"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M7.75 2A5.75 5.75 0 0 0 2 7.75v8.5A5.75 5.75 0 0 0 7.75 22h8.5A5.75 5.75 0 0 0 22 16.25v-8.5A5.75 5.75 0 0 0 16.25 2h-8.5zm0 1.5h8.5A4.25 4.25 0 0 1 20.5 7.75v8.5A4.25 4.25 0 0 1 16.25 20.5h-8.5A4.25 4.25 0 0 1 3.5 16.25v-8.5A4.25 4.25 0 0 1 7.75 3.5zm8.25 2.25a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 1.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z"/>
+                        </svg>
+                    </a>
+                    <a href="https://facebook.com/" target="_blank" class="bg-white/80 hover:bg-white rounded-full p-3 transition-all shadow-lg hover:scale-110 transform" aria-label="Facebook">
+                        <svg class="w-6 h-6" fill="#1877F2" viewBox="0 0 24 24">
+                            <path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.771-1.63 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12"/>
+                        </svg>
+                    </a>
+                    <a href="https://youtube.com/" target="_blank" class="bg-white/80 hover:bg-white rounded-full p-3 transition-all shadow-lg hover:scale-110 transform" aria-label="YouTube">
+                        <svg class="w-6 h-6" fill="#FF0000" viewBox="0 0 24 24">
+                            <path d="M21.8 8.001s-.2-1.43-.8-2.06c-.77-.8-1.64-.8-2.04-.85C16.2 5 12 5 12 5h-.01s-4.2 0-6.96.09c-.4.05-1.27.05-2.04.85-.6.63-.8 2.06-.8 2.06S2 9.57 2 11.14v1.72c0 1.57.2 3.14.2 3.14s.2 1.43.8 2.06c.77.8 1.78.77 2.23.86C7.8 19 12 19 12 19s4.2 0 6.96-.09c.4-.05 1.27-.05 2.04-.85.6-.63.8-2.06.8-2.06s.2-1.57.2-3.14v-1.72c0-1.57-.2-3.14-.2-3.14zM9.75 15.02V8.98l6.5 3.02-6.5 3.02z"/>
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com/" target="_blank" class="bg-white/80 hover:bg-white rounded-full p-3 transition-all shadow-lg hover:scale-110 transform" aria-label="Twitter">
+                        <svg class="w-6 h-6" fill="#1DA1F2" viewBox="0 0 24 24">
+                            <path d="M22.46 6c-.77.35-1.6.59-2.47.7a4.3 4.3 0 0 0 1.88-2.37 8.59 8.59 0 0 1-2.72 1.04A4.28 4.28 0 0 0 16.11 4c-2.37 0-4.29 1.92-4.29 4.29 0 .34.04.67.11.99C7.69 9.13 4.07 7.38 1.64 4.77c-.37.64-.58 1.38-.58 2.17 0 1.5.76 2.82 1.92 3.6-.7-.02-1.36-.21-1.94-.53v.05c0 2.1 1.5 3.85 3.5 4.25-.36.1-.74.16-1.13.16-.28 0-.54-.03-.8-.08.54 1.7 2.1 2.94 3.95 2.97A8.6 8.6 0 0 1 2 19.54c-.29 0-.57-.02-.85-.05A12.13 12.13 0 0 0 8.29 21.5c7.55 0 11.68-6.26 11.68-11.68 0-.18-.01-.36-.02-.54A8.18 8.18 0 0 0 22.46 6z"/>
+                        </svg>
+                    </a>
+                </div>
                 <div class="flex flex-col space-y-2 translate-y-10">
-                    <a href="https://www.youtube.com/@kennelclubchile" class="flex items-center space-x-2 hover:text-red-600 transition-colors">
-                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                        </svg>
-                        <span>Kennel Club de Chile</span>
-                    </a>
-                    <a href="https://www.facebook.com/@kennelclubchile" class="flex items-center space-x-2 hover:text-blue-800 transition-colors">
-                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
-                        <span>Kennel Club de Chile</span>
-                    </a>
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- SVG curva inferior superpuesta -->
+    <svg viewBox="0 0 1440 120" width="100%" height="120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="position:absolute; bottom:0; left:0; z-index:20; display:block;">
+        <path d="M0,40 C360,120 1080,-40 1440,40 L1440,120 L0,120 Z" fill="#fff"/>
+    </svg>
 </div>
 
 <div class="card bg-gradient-to-br from-white to-gray-50 shadow-2xl border border-gray-100 flex flex-col lg:flex-row">
@@ -51,8 +84,7 @@
             <div class="flex items-center mb-2">
                 <h3 class="text-xl lg:text-2xl font-bold title-color">Revive nuestra transmisión</h3>
             </div>
-            <p class="paragraph-color leading-relaxed mb-6 text-sm lg:text-base">No te pierdas los momentos que vivimos en nuestra última competencia.<br>
-                Suscríbete a nuestro canal para estar al día de los eventos de Kennel Club de Chile</p>
+            <p class="paragraph-color leading-relaxed mb-6 text-sm lg:text-base">No te pierdas los momentos que vivimos en nuestra última competencia.<br> Suscríbete a nuestro canal para estar al día de los eventos de Kennel Club de Chile</p>
         </div>
         <div class="flex flex-col space-y-3">
             <button class="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm lg:text-base">
@@ -73,16 +105,17 @@
 
 <div class="flex flex-col items-center justify-center mt-8 bg-gray-200 w-full">
     <p class="text-2xl font-bold title-color my-5">Últimas noticias</p>
+    
     <!-- Grid de noticias -->
     {% if ultimas_noticias %}
     <div class="noticias-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 900px; margin: 0 auto; padding: 0 1rem; margin-bottom: 2rem;">
         {% for noticia in ultimas_noticias %}
-        <div class="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden flex flex-col" style="max-width: 100%; height: 100%;">
+        <div class="max-w-xs bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden flex flex-col" style="max-width: 100%; height: 100%;">
             <a href="{% url 'detalle_noticia' noticia.id %}">
                 {% if noticia.imagen %}
-                    <img class="w-full h-auto rounded-t-lg scale-110 transition-all duration-300 hover:scale-100" src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" style="width: 100%; height: 150px; object-fit: cover;" />
+                <img class="w-full h-auto rounded-t-lg scale-110 transition-all duration-300 hover:scale-100" src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" style="width: 100%; height: 150px; object-fit: cover;" />
                 {% else %}
-                    <img class="rounded-t-lg" src="https://via.placeholder.com/300x150" alt="Imagen no disponible" style="width: 100%; height: 150px; object-fit: cover;" />
+                <img class="rounded-t-lg" src="https://via.placeholder.com/300x150" alt="Imagen no disponible" style="width: 100%; height: 150px; object-fit: cover;" />
                 {% endif %}
             </a>
             <div class="p-3 flex flex-col flex-grow">
@@ -92,27 +125,18 @@
                 <p class="mb-2 font-light text-xs flex-grow paragraph-color">{{ noticia.texto|safe|striptags|truncatechars:100 }}</p>
                 <div class="flex justify-between items-center mt-auto">
                     <span class="text-xs text-gray-500">{{ noticia.fecha|date:"d/m/Y" }}</span>
-                    <a href="{% url 'detalle_noticia' noticia.id %}" class="inline-flex items-center px-2 py-1 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <a href="{% url 'detalle_noticia' noticia.id %}" class="inline-flex items-center px-2 py-1 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300">
                         Ver más
                     </a>
                 </div>
-                
-                <!-- Categoría -->
-                {% if noticia.categoria %}
-                <div class="flex justify-center items-center mt-2">
-                    <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-green-600 rounded-full">
-                        {{ noticia.categoria }}
-                    </span>
-                </div>
-                {% endif %}
             </div>
         </div>
         {% endfor %}
     </div>
-
+    
     <!-- Botón para ver todas las noticias -->
     <div class="flex justify-center mb-8">
-        <a href="{% url 'noticias' %}" class="inline-flex items-center px-6 py-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+        <a href="{% url 'noticias' %}" class="inline-flex items-center px-6 py-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
             </svg>
@@ -126,21 +150,17 @@
     {% endif %}
 </div>
 
-
-
-
-
 <style>
-    @media (max-width: 1024px) {
-        .noticias-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-        }
+@media (max-width: 1024px) {
+    .noticias-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
-    @media (max-width: 640px) {
-        .noticias-grid {
-            grid-template-columns: 1fr !important;
-        }
-    }
-</style>
+}
 
+@media (max-width: 640px) {
+    .noticias-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
 {% endblock %} 

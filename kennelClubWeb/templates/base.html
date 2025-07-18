@@ -74,12 +74,12 @@
 
 </head>
 <body class="font-sans text-gray-800 antialiased min-h-screen flex flex-col bg-slate-50">
-    <header class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+    <header class="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
         <div class="w-full flex items-center justify-between mx-auto p-4">
             <!-- Logo -->
             <a href="{% url 'home' %}" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img id="logo-kennel" src="{% static 'img/kennel-club-chile.png' %}" alt="Kennel Club de Chile - Logo oficial de la organización canina en Chile" class="h-12 transition-all duration-300 ease-in-out">
-                <span class="self-center text-xl font-bold whitespace-nowrap dark:text-white hidden desktop-menu:flex flex-col">
+                <span class="self-center text-xl font-bold whitespace-nowrap hidden desktop-menu:flex flex-col">
                     <span>Kennel</span>
                     <span>Club de Chile</span>
                 </span>
@@ -147,7 +147,7 @@
                 </button>
                 
                 <!-- Botón de inscripción -->
-                <a href="{% url 'login' %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hidden desktop-menu:block">
+                <a href="{% url 'login' %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center hidden desktop-menu:block">
                     Inscripción
                 </a>
                 
@@ -157,7 +157,7 @@
                 </a>
                 
                 <!-- Botón de menú móvil -->
-                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg desktop-menu:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg desktop-menu:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-sticky" aria-expanded="false">
                     <span class="sr-only">Abrir menú principal</span>
                     <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
@@ -167,7 +167,8 @@
         </div>
     </header>
 
-    <!-- Panel flotante de redes sociales -->
+    <!-- Panel flotante de redes sociales --> 
+    {% if request.resolver_match.url_name != 'home' %}
     <div class="fixed right-0 top-1/2 transform -translate-y-1/2 z-50">
         <div class="bg-white shadow-lg rounded-l-lg p-3 border-l-4 border-blue-600">
             <div class="flex flex-col space-y-3">
@@ -213,6 +214,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
     <main class="py-20 flex-grow flex">
         <!-- Sidebar lateral izquierdo centrado verticalmente -->
@@ -225,7 +227,7 @@
         </aside>
         
         <!-- Contenido principal -->
-        <div class="flex-1 px-4 lg:px-8 {% if request.resolver_match.url_name != 'home' %}pt-10{% endif %}">
+        <div class="flex-1 {% if request.resolver_match.url_name != 'home' %}pt-10{% endif %}">
             {% block content %}
             {% endblock %}
         </div>
@@ -415,4 +417,3 @@
     </script>
 </body>
 </html>
-

@@ -4,12 +4,25 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 # Create your models here.
 
+class CategoriaNoticias(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    codigo_categoria = models.CharField(max_length=50, unique=True, help_text="Código único para identificar la categoría")
+    
+    def __str__(self):
+        return self.nombre
+    
+    class Meta:
+        verbose_name = 'Categoría de Noticias'
+        verbose_name_plural = 'Categorías de Noticias'
+        ordering = ['nombre']
+
+
 class Noticias(models.Model):
     titulo = models.CharField(max_length=200)
     texto = CKEditor5Field(blank=True, null=True)
     fecha = models.DateTimeField(auto_now_add=True)
     imagen = models.ImageField(upload_to='noticias/', null=True, blank=True)
-    categoria = models.CharField(max_length=100)
+    categorias = models.ManyToManyField(CategoriaNoticias, related_name='noticias', blank=True)
 
     def __str__(self):
         return self.titulo
@@ -134,11 +147,21 @@ class Ranking(models.Model):
         return self.titulo
     
     def fecha_mes_anio(self):
-        """Retorna la fecha en formato mes/año"""
+        """Retorna la fecha en formato mes/año en español"""
         try:
             from datetime import datetime
             fecha_obj = datetime.strptime(self.fecha, '%Y-%m')
-            return fecha_obj.strftime('%B %Y')
+            
+            # Diccionario para convertir meses a español
+            meses_es = {
+                1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril', 5: 'Mayo', 6: 'Junio',
+                7: 'Julio', 8: 'Agosto', 9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+            }
+            
+            mes_es = meses_es[fecha_obj.month]
+            año = fecha_obj.year
+            
+            return f"{mes_es} {año}"
         except:
             return self.fecha
     

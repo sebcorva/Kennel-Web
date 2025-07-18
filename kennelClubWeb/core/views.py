@@ -3,12 +3,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Noticias, Juez, TipoJuez, Evento, Ranking, Reglamentos, Crianza, HistoriaRazas, FotoHistoriaRaza, Tramites, PreguntasFrecuentes
 from datetime import datetime, timedelta
 
 # Create your views here.
 def home(request):
-    # Obtener las últimas 3 noticias ordenadas por fecha (más reciente primero)
     ultimas_noticias = Noticias.objects.all().order_by('-fecha')[:3]
     return render(request, 'home.html', {'ultimas_noticias': ultimas_noticias})
 
@@ -67,8 +67,28 @@ def robots_txt(request):
     return HttpResponse(robots_content, content_type='text/plain')
 
 def noticias(request):
-    noticias = Noticias.objects.all().order_by('-fecha')
-    return render(request, 'noticias.html', {'noticias': noticias})
+    # Obtener todas las noticias ordenadas por fecha
+    noticias_list = Noticias.objects.all().order_by('-fecha')
+    
+    # Configurar paginación - 12 noticias por página (4 columnas x 3 filas)
+    paginator = Paginator(noticias_list, 12)
+    
+    # Obtener el número de página de los parámetros GET
+    page = request.GET.get('page')
+    
+    try:
+        noticias = paginator.page(page)
+    except PageNotAnInteger:
+        # Si la página no es un número, mostrar la primera página
+        noticias = paginator.page(1)
+    except EmptyPage:
+        # Si la página está fuera del rango, mostrar la última página
+        noticias = paginator.page(paginator.num_pages)
+    
+    return render(request, 'noticias.html', {
+        'noticias': noticias,
+        'paginator': paginator
+    })
 
 def detalle_noticia(request, noticia_id):
     noticia = get_object_or_404(Noticias, id=noticia_id)
@@ -100,14 +120,29 @@ def eventos(request):
     mes_filtro = request.GET.get('mes')
     
     # Obtener todos los eventos
-    eventos = Evento.objects.all().order_by('-fecha_inicio')
+    eventos_list = Evento.objects.all().order_by('-fecha_inicio')
     
     # Aplicar filtros
     if año_filtro:
-        eventos = eventos.filter(fecha_inicio__year=año_filtro)
+        eventos_list = eventos_list.filter(fecha_inicio__year=año_filtro)
     
     if mes_filtro:
-        eventos = eventos.filter(fecha_inicio__month=mes_filtro)
+        eventos_list = eventos_list.filter(fecha_inicio__month=mes_filtro)
+    
+    # Configurar paginación - 9 eventos por página
+    paginator = Paginator(eventos_list, 9)
+    
+    # Obtener el número de página de los parámetros GET
+    page = request.GET.get('page')
+    
+    try:
+        eventos = paginator.page(page)
+    except PageNotAnInteger:
+        # Si la página no es un número, mostrar la primera página
+        eventos = paginator.page(1)
+    except EmptyPage:
+        # Si la página está fuera del rango, mostrar la última página
+        eventos = paginator.page(paginator.num_pages)
     
     # Diccionario para convertir meses a español
     meses_es = {
@@ -131,7 +166,6 @@ def eventos(request):
                 evento.dias_lista.append(fecha_actual)
                 fecha_actual += timedelta(days=1)
         
-        # Formatear los días para mostrar
         evento.dias_formateados = []
         for fecha in evento.dias_lista:
             dia_num = fecha.day
@@ -140,6 +174,7 @@ def eventos(request):
     
     return render(request, 'eventos.html', {
         'eventos': eventos,
+        'paginator': paginator,
         'años_disponibles': años_disponibles,
         'meses_es': meses_es,
         'año_actual': año_filtro,
@@ -157,15 +192,12 @@ def historia_razas(request):
     return render(request, 'historia_razas.html', {'historias_razas': historias_razas})
 
 def rankings(request):
-    # Obtener todos los rankings ordenados por fecha (más reciente primero)
     rankings = Ranking.objects.all().order_by('-fecha')
     
-    # Agrupar rankings por año
     rankings_por_año = {}
     años_disponibles = []
     
     for ranking in rankings:
-        # Extraer el año del campo fecha (formato YYYY-MM)
         año = ranking.fecha.split('-')[0]
         
         if año not in rankings_por_año:
@@ -174,17 +206,15 @@ def rankings(request):
         
         rankings_por_año[año].append(ranking)
     
-    # Ordenar años de más reciente a más antiguo
     años_disponibles.sort(reverse=True)
     
     return render(request, 'rankings.html', {
         'rankings_por_año': rankings_por_año,
         'años_disponibles': años_disponibles,
-        'rankings': rankings  # Mantener para compatibilidad
+        'rankings': rankings
     })
 
 def reglamentos(request):
-    # Obtener todos los reglamentos ordenados por fecha de creación (más reciente primero)
     reglamentos = Reglamentos.objects.all().order_by('-fecha_creacion')
     
     return render(request, 'reglamentos.html', {
@@ -210,10 +240,8 @@ def tramites(request):
         'Inscripción de lechigadas'
     ]
     
-    # Obtener todos los trámites
     todos_tramites = list(Tramites.objects.all())
     
-    # Ordenar según el orden específico
     tramites_ordenados = []
     for nombre_ordenado in orden_especifico:
         for tramite in todos_tramites:
@@ -221,7 +249,6 @@ def tramites(request):
                 tramites_ordenados.append(tramite)
                 break
     
-    # Agregar cualquier trámite que no esté en la lista específica al final
     for tramite in todos_tramites:
         if tramite not in tramites_ordenados:
             tramites_ordenados.append(tramite)
@@ -235,10 +262,8 @@ def preguntas_frecuentes(request):
     return render(request, 'preguntas_frecuentes.html', {'categorias': categorias})
 
 def detalle_preguntas_frecuentes(request, categoria):
-    # Obtener el nombre legible de la categoría
     categoria_nombre = dict(PreguntasFrecuentes.CATEGORIA_CHOICES).get(categoria, categoria)
     
-    # Obtener las preguntas de la categoría específica
     preguntas = PreguntasFrecuentes.objects.filter(categoria=categoria).order_by('orden')
     
     return render(request, 'detalle_preguntas_frecuentes.html', {

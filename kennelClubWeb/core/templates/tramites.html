@@ -13,15 +13,15 @@
         <div id="accordion-collapse" data-accordion="collapse">
             {% for tramite in tramites %}
             <h2 id="accordion-collapse-heading-{{ forloop.counter }}">
-                <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 {% if forloop.first %}rounded-t-xl{% endif %} focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-{{ forloop.counter }}" aria-expanded="false" aria-controls="accordion-collapse-body-{{ forloop.counter }}">
-                    <span>{{ tramite.nombre }}</span>
+                <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 {% if forloop.first %}rounded-t-xl{% endif %} focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3" data-accordion-target="#accordion-collapse-body-{{ forloop.counter }}" aria-expanded="false" aria-controls="accordion-collapse-body-{{ forloop.counter }}">
+                    <span class="text-gray-500">{{ tramite.nombre }}</span>
                     <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
                     </svg>
                 </button>
             </h2>
             <div id="accordion-collapse-body-{{ forloop.counter }}" class="hidden" aria-labelledby="accordion-collapse-heading-{{ forloop.counter }}">
-                <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                <div class="p-5 border border-b-0 border-gray-200">
                     {% if tramite.imagen %}
                     <div class="mb-4 flex justify-center">
                         <img src="{{ tramite.imagen.url }}" 
@@ -43,12 +43,12 @@
                         <h4 class="text-lg font-semibold title-color mb-3">Archivos relacionados:</h4>
                         <div class="space-y-2">
                             {% for archivo in tramite.archivos.all %}
-                            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
                                 <div class="flex items-center space-x-3">
-                                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                     </svg>
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    <span class="text-sm font-medium text-gray-700">
                                         {% if archivo.nombre_archivo %}
                                             {{ archivo.nombre_archivo }}
                                         {% else %}

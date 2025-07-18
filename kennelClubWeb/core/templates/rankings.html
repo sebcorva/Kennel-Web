@@ -20,11 +20,11 @@
             <label for="search-rankings" class="sr-only">Buscar rankings</label>
             <div class="relative w-3/4 max-w-xl">
                 <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>
                 </div>
-                <input type="text" id="search-rankings" class="block w-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar rankings por título...">
+                <input type="text" id="search-rankings" class="block w-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Buscar rankings por título...">
             </div>
         </div>
 
@@ -32,47 +32,165 @@
         {% if años_disponibles %}
         <div class="mb-8">
             <div class="flex flex-wrap justify-center mb-8 border-b border-gray-200">
+                <!-- Botón "Todos" -->
+                <button class="year-tab active px-6 py-3 text-sm font-medium text-blue-600 border-b-2 border-blue-600 hover:text-blue-600 transition-all duration-200" data-year="todos">
+                    Todos
+                </button>
                 {% for año in años_disponibles %}
-                <button 
-                    class="year-tab px-6 py-3 text-sm font-medium text-gray-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition-all duration-200 {% if forloop.first %}active text-blue-600 border-blue-600{% endif %}"
-                    data-year="{{ año }}"
-                >
+                <button class="year-tab px-6 py-3 text-sm font-medium text-gray-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition-all duration-200" data-year="{{ año }}">
                     {{ año }}
                 </button>
                 {% endfor %}
             </div>
         </div>
 
-        <!-- Rankings Content -->
-        {% for año in años_disponibles %}
-        <div class="year-content {% if not forloop.first %}hidden{% endif %}" data-year="{{ año }}">
+        <!-- Rankings Content - Todos los años -->
+        <div class="year-content" data-year="todos">
             <div class="max-w-7xl mx-auto">
-                {% if rankings_por_año|get_item:año %}
-                
+                {% if rankings %}
                 <!-- Desktop Table -->
                 <div class="hidden md:block">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Título
+                                    <th scope="col" class="px-6 py-3">Título</th>
+                                    <th scope="col" class="px-6 py-3">Mes</th>
+                                    <th scope="col" class="px-6 py-3">Año</th>
+                                    <th scope="col" class="px-6 py-3">Categoría</th>
+                                    <th scope="col" class="px-6 py-3">Descargar PDF</th>
+                                </tr>
+                            </thead>
+                            <tbody class="rankings-tbody" data-year="todos">
+                                {% for ranking in rankings %}
+                                <tr class="ranking-row bg-white border-b border-gray-200 hover:bg-gray-50" data-titulo="{{ ranking.titulo|lower }}">
+                                    <th scope="row" class="px-6 py-4 text-gray-900 whitespace-nowrap">
+                                        <div class="text-base font-semibold">{{ ranking.titulo }}</div>
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Mes
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Categoría
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Descargar PDF
-                                    </th>
+                                    <td class="px-6 py-4">
+                                        <span class="text-blue-600 font-medium">{{ ranking.fecha_mes_anio|slice:":-5" }}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-purple-600 font-medium">{{ ranking.fecha|slice:":4" }}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-green-600 font-medium">{{ ranking.categoria|default:"-" }}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {% if ranking.archivo %}
+                                        <a href="{{ ranking.archivo.url }}" download class="text-blue-600 hover:text-blue-800 flex items-center space-x-2" title="Descargar ranking">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span class="text-sm">Descargar PDF</span>
+                                        </a>
+                                        {% else %}
+                                        <span class="text-gray-400">No disponible</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Mobile Cards -->
+                <div class="md:hidden">
+                    <div class="grid grid-cols-1 gap-4" id="cards-todos">
+                        {% for ranking in rankings %}
+                        <div class="ranking-card bg-white rounded-lg shadow-md border border-gray-200 p-4" data-titulo="{{ ranking.titulo|lower }}">
+                            <!-- Header con título -->
+                            <div class="mb-3">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ ranking.titulo }}</h3>
+                            </div>
+
+                            <!-- Información detallada -->
+                            <div class="space-y-3">
+                                <!-- Mes -->
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 01-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <span class="text-sm text-gray-600">Mes:</span>
+                                    <span class="text-sm font-medium text-blue-600 ml-2">{{ ranking.fecha_mes_anio|slice:":-5" }}</span>
+                                </div>
+
+                                <!-- Año -->
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 text-purple-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span class="text-sm text-gray-600">Año:</span>
+                                    <span class="text-sm font-medium text-purple-600 ml-2">{{ ranking.fecha|slice:":4" }}</span>
+                                </div>
+
+                                <!-- Categoría -->
+                                {% if ranking.categoria %}
+                                <div>
+                                    <div class="flex items-center mb-1">
+                                        <svg class="w-4 h-4 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                        </svg>
+                                        <span class="text-sm text-gray-600">Categoría:</span>
+                                    </div>
+                                    <span class="text-sm font-medium text-green-600 ml-6">{{ ranking.categoria }}</span>
+                                </div>
+                                {% endif %}
+
+                                <!-- Descarga -->
+                                <div class="pt-2 border-t border-gray-200">
+                                    {% if ranking.archivo %}
+                                    <a href="{{ ranking.archivo.url }}" download class="inline-flex items-center text-blue-600 hover:text-blue-800" title="Descargar ranking">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="text-sm font-medium">Descargar PDF</span>
+                                    </a>
+                                    {% else %}
+                                    <span class="text-gray-400 text-sm">PDF no disponible</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="text-center py-8">
+                    <div class="max-w-md mx-auto">
+                        <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <h3 class="text-lg font-medium title-color mb-2">No hay rankings disponibles</h3>
+                        <p class="paragraph-color">No se encontraron rankings registrados en el sistema.</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Rankings Content por año -->
+        {% for año in años_disponibles %}
+        <div class="year-content hidden" data-year="{{ año }}">
+            <div class="max-w-7xl mx-auto">
+                {% if rankings_por_año|get_item:año %}
+                <!-- Desktop Table -->
+                <div class="hidden md:block">
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Título</th>
+                                    <th scope="col" class="px-6 py-3">Mes</th>
+                                    <th scope="col" class="px-6 py-3">Categoría</th>
+                                    <th scope="col" class="px-6 py-3">Descargar PDF</th>
                                 </tr>
                             </thead>
                             <tbody class="rankings-tbody" data-year="{{ año }}">
                                 {% for ranking in rankings_por_año|get_item:año %}
-                                <tr class="ranking-row bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600" data-titulo="{{ ranking.titulo|lower }}">
-                                    <th scope="row" class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                <tr class="ranking-row bg-white border-b border-gray-200 hover:bg-gray-50" data-titulo="{{ ranking.titulo|lower }}">
+                                    <th scope="row" class="px-6 py-4 text-gray-900 whitespace-nowrap">
                                         <div class="text-base font-semibold">{{ ranking.titulo }}</div>
                                     </th>
                                     <td class="px-6 py-4">
@@ -152,7 +270,6 @@
                         {% endfor %}
                     </div>
                 </div>
-                
                 {% else %}
                 <div class="text-center py-8">
                     <div class="max-w-md mx-auto">
@@ -219,13 +336,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // Search functionality
     const searchInput = document.getElementById('search-rankings');
-    
     if (searchInput) {
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
+            
+            // Si hay texto en la búsqueda, cambiar automáticamente a la pestaña "Todos"
+            if (searchTerm.length > 0) {
+                const todosTab = document.querySelector('.year-tab[data-year="todos"]');
+                if (todosTab && !todosTab.classList.contains('active')) {
+                    // Simular clic en la pestaña "Todos"
+                    todosTab.click();
+                }
+            }
+            
+            // Buscar en el contenido visible (que ahora será "Todos" si hay búsqueda)
             const visibleContent = document.querySelector('.year-content:not(.hidden)');
             
             if (visibleContent) {
@@ -255,4 +382,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+<style>
+.year-tab.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+}
+</style>
 {% endblock %} 

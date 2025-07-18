@@ -20,10 +20,7 @@
             <!-- Tab Navigation -->
             <div class="flex flex-wrap justify-center mb-8 border-b border-gray-200">
                 {% for tipo, jueces in jueces_por_tipo.items %}
-                <button 
-                    class="tab-button px-6 py-3 text-sm font-medium text-gray-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition-all duration-200 {% if forloop.first %}active text-blue-600 border-blue-600{% endif %}"
-                    data-tab="tab-{{ tipo.id }}"
-                >
+                <button class="tab-button px-6 py-3 text-sm font-medium text-gray-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition-all duration-200 {% if forloop.first %}active text-blue-600 border-blue-600{% endif %}" data-tab="tab-{{ tipo.id }}">
                     {{ tipo.nombre }}
                 </button>
                 {% endfor %}
@@ -38,54 +35,45 @@
                     <p class="paragraph-color">{{ tipo.descripcion }}</p>
                     {% endif %}
                 </div>
-                
+
                 <!-- Search Filter -->
                 <div class="mb-6 flex justify-center">
                     <label for="search-{{ tipo.id }}" class="sr-only">Buscar jueces</label>
                     <div class="relative w-3/4 max-w-xl">
                         <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="text" id="search-{{ tipo.id }}" class="block w-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar jueces por nombre...">
+                        <input type="text" id="search-{{ tipo.id }}" class="block w-full ps-10 pr-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Buscar jueces por nombre...">
+                        <button type="button" id="clear-search-{{ tipo.id }}" class="absolute inset-y-0 right-0 flex items-center pr-3 hidden" title="Limpiar búsqueda">
+                            <svg class="w-4 h-4 text-gray-500 hover:text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
-                
+
                 <!-- Jueces Cards (Mobile) and Table (Desktop) -->
                 <div class="hidden md:block">
                     <!-- Desktop Table -->
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Juez
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Afijo
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Razas
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Especialidades
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Licencias
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Contacto
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Curriculum
-                                    </th>
+                                    <th scope="col" class="px-6 py-3">Juez</th>
+                                    <th scope="col" class="px-6 py-3 min-w-[120px]">Afijo</th>
+                                    <th scope="col" class="px-6 py-3">Razas</th>
+                                    <th scope="col" class="px-6 py-3">Especialidades</th>
+                                    <th scope="col" class="px-6 py-3">Licencias</th>
+                                    <th scope="col" class="px-6 py-3">Contacto</th>
+                                    <th scope="col" class="px-6 py-3">Curriculum</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody-{{ tipo.id }}">
                                 {% for juez in jueces %}
-                                <tr class="juez-row bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600" data-nombre="{{ juez.nombres|lower }} {{ juez.apellido_paterno|lower }} {{ juez.apellido_materno|lower }}">
-                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                <tr class="juez-row bg-white border-b border-gray-200 hover:bg-gray-50" data-nombre="{{ juez.nombres|lower }} {{ juez.apellido_paterno|lower }} {{ juez.apellido_materno|lower }}">
+                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
                                         {% if juez.fotografia %}
                                         <img src="{{ juez.fotografia.url }}" alt="{{ juez.nombre_completo }}" class="w-10 h-10 rounded-full object-cover">
                                         {% else %}
@@ -100,9 +88,9 @@
                                             <div class="font-normal text-gray-500">{{ juez.apellido_paterno }} {{ juez.apellido_materno }}</div>
                                         </div>
                                     </th>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 min-w-[120px]">
                                         {% if juez.afijo %}
-                                        <span class="text-blue-600 font-medium">{{ juez.afijo }}</span>
+                                        <span class="text-blue-600 font-medium break-words">{{ juez.afijo }}</span>
                                         {% else %}
                                         <span class="text-gray-400">-</span>
                                         {% endif %}
@@ -203,6 +191,17 @@
                                 {% endfor %}
                             </tbody>
                         </table>
+                    </div>
+                    
+                    <!-- Desktop No Results Message -->
+                    <div id="no-results-desktop-{{ tipo.id }}" class="hidden text-center py-8">
+                        <div class="max-w-md mx-auto">
+                            <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">No se encontraron resultados</h3>
+                            <p class="text-gray-600">No hay jueces que coincidan con tu búsqueda.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -336,6 +335,17 @@
                         </div>
                         {% endfor %}
                     </div>
+                    
+                    <!-- Mobile No Results Message -->
+                    <div id="no-results-mobile-{{ tipo.id }}" class="hidden text-center py-8">
+                        <div class="max-w-md mx-auto">
+                            <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">No se encontraron resultados</h3>
+                            <p class="text-gray-600">No hay jueces que coincidan con tu búsqueda.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -358,9 +368,10 @@
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Tab functionality
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
-
+    
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
             const targetTab = button.getAttribute('data-tab');
@@ -377,40 +388,93 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Search functionality for each tab
     const searchInputs = document.querySelectorAll('input[id^="search-"]');
-    
     searchInputs.forEach(input => {
-        input.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const tabId = this.id.replace('search-', '');
+        const tabId = input.id.replace('search-', '');
+        const clearButton = document.getElementById(`clear-search-${tabId}`);
+        
+        // Show/hide clear button based on input value
+        function toggleClearButton() {
+            if (input.value.length > 0) {
+                clearButton.classList.remove('hidden');
+            } else {
+                clearButton.classList.add('hidden');
+            }
+        }
+        
+        // Search function
+        function performSearch() {
+            const searchTerm = input.value.toLowerCase();
+            let hasResults = false;
             
             // Search in desktop table
             const tbody = document.getElementById(`tbody-${tabId}`);
+            const noResultsDesktop = document.getElementById(`no-results-desktop-${tabId}`);
             if (tbody) {
                 const rows = tbody.querySelectorAll('.juez-row');
+                let visibleRows = 0;
                 rows.forEach(row => {
                     const nombre = row.getAttribute('data-nombre');
                     if (nombre.includes(searchTerm)) {
                         row.style.display = '';
+                        visibleRows++;
                     } else {
                         row.style.display = 'none';
                     }
                 });
+                
+                // Show/hide desktop no results message
+                if (visibleRows === 0 && searchTerm.length > 0) {
+                    noResultsDesktop.classList.remove('hidden');
+                } else {
+                    noResultsDesktop.classList.add('hidden');
+                }
+                
+                if (visibleRows > 0) hasResults = true;
             }
             
             // Search in mobile cards
             const cardsContainer = document.getElementById(`cards-${tabId}`);
+            const noResultsMobile = document.getElementById(`no-results-mobile-${tabId}`);
             if (cardsContainer) {
                 const cards = cardsContainer.querySelectorAll('.juez-card');
+                let visibleCards = 0;
                 cards.forEach(card => {
                     const nombre = card.getAttribute('data-nombre');
                     if (nombre.includes(searchTerm)) {
                         card.style.display = '';
+                        visibleCards++;
                     } else {
                         card.style.display = 'none';
                     }
                 });
+                
+                // Show/hide mobile no results message
+                if (visibleCards === 0 && searchTerm.length > 0) {
+                    noResultsMobile.classList.remove('hidden');
+                } else {
+                    noResultsMobile.classList.add('hidden');
+                }
+                
+                if (visibleCards > 0) hasResults = true;
             }
+        }
+        
+        // Input event listener
+        input.addEventListener('input', function() {
+            toggleClearButton();
+            performSearch();
         });
+        
+        // Clear button event listener
+        clearButton.addEventListener('click', function() {
+            input.value = '';
+            toggleClearButton();
+            performSearch();
+            input.focus();
+        });
+        
+        // Initial state
+        toggleClearButton();
     });
 });
 </script>
