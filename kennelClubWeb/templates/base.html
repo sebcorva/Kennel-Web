@@ -142,7 +142,7 @@
                 </button>
                 
                 <!-- Botón de carrito -->
-                <button class="text-gray-600 hover:text-blue-600">
+                <button class="text-gray-600 hover:text-blue-600 hidden">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 </button>
                 
@@ -267,12 +267,28 @@
 
             <div>
                 <h4 class="text-white text-lg font-bold mb-4">Contacto</h4>
-                <p class="text-sm">Av. Manuel Barrios Borgoño #104, 1054</p>
-                <p class="text-sm">Providencia, Santiago</p>
-                <p class="text-sm mb-2">+56 2 2481 8181</p>
-                <p class="text-sm">
-                    <a href="mailto:contacto@kennelclub.cl" class="hover:text-blue-400 transition-colors">contacto@kennelclub.cl</a>
-                </p>
+                <div class="flex items-center space-x-2 mb-1">
+                    <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <p class="text-sm">Av. Manuel Barrios Borgoño #104, 1054</p>
+                </div>
+                <p class="text-sm ml-6">Providencia, Santiago</p>
+                <div class="flex items-center space-x-2 my-2">
+                    <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                    </svg>
+                    <p class="text-sm">+56 2 2481 8181</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                    </svg>
+                    <p class="text-sm">
+                        <a href="mailto:contacto@kennelclub.cl" class="hover:text-blue-400 transition-colors">contacto@kennelclub.cl</a>
+                    </p>
+                </div>
             </div>
 
             <div>
@@ -299,6 +315,8 @@
 
         <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
             &copy; 2025 Kennel Club de Chile. Todos los derechos reservados.
+            <br>
+            <span class="text-xs">Desarrollado por <a href="https://github.com/sebcorva" target="_blank" class="hover:text-blue-400 transition-colors">Sebastián Corvalan</a></span>
         </div>
     </footer>
     <script>
@@ -381,6 +399,8 @@
                 background-color: white;
             }
         }
+        
+
     </style>
     
     <!-- Script de prueba simple -->
