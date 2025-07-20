@@ -4,6 +4,50 @@ from django.utils.html import format_html
 from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import CategoriaNoticias, Noticias, Raza, Especialidad, TipoJuez, Licencia, Juez, Evento, Ranking, Reglamentos, Crianza, HistoriaRazas, FotoHistoriaRaza, Club, Tramites, ArchivoTramite, PreguntasFrecuentes
 
+class CategoriaNoticiasForm(forms.ModelForm):
+    COLOR_CHOICES = [
+        ('', 'Sin color'),
+        ('#3b82f6', 'Azul'),
+        ('#10b981', 'Verde'),
+        ('#ef4444', 'Rojo'),
+        ('#8b5cf6', 'Morado'),
+        ('#eab308', 'Amarillo'),
+        ('#6366f1', 'Índigo'),
+        ('#ec4899', 'Rosa'),
+        ('#14b8a6', 'Verde Azulado'),
+        ('#f97316', 'Naranja'),
+        ('#6b7280', 'Gris'),
+    ]
+    
+    color_selector = forms.ChoiceField(
+        choices=COLOR_CHOICES,
+        label='Seleccionar Color',
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'color-selector',
+            'style': 'width: 200px; padding: 8px; border-radius: 4px; border: 1px solid #ddd;'
+        })
+    )
+    
+    class Meta:
+        model = CategoriaNoticias
+        fields = '__all__'
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk and self.instance.color:
+            # Si es una edición y tiene color, seleccionar el color actual
+            self.fields['color_selector'].initial = self.instance.color
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        color_selector = cleaned_data.get('color_selector')
+        
+        if color_selector:
+            cleaned_data['color'] = color_selector
+        
+        return cleaned_data
+
 @admin.register(Noticias)
 class NoticiasAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'fecha', 'categorias_display')
@@ -21,9 +65,50 @@ class NoticiasAdmin(admin.ModelAdmin):
 
 @admin.register(CategoriaNoticias)
 class CategoriaNoticiasAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'codigo_categoria')
+    form = CategoriaNoticiasForm
+    list_display = ('nombre', 'codigo_categoria', 'color', 'color_preview')
     search_fields = ('nombre', 'codigo_categoria')
     ordering = ('nombre',)
+    fieldsets = (
+        ('Información Básica', {
+            'fields': ('nombre', 'codigo_categoria')
+        }),
+        ('Color de la Categoría', {
+            'fields': ('color_selector', 'color'),
+            'description': 'Selecciona un color de la lista desplegable. El color se aplicará automáticamente al campo "Color".'
+        }),
+    )
+    
+    def color_preview(self, obj):
+        if obj.color:
+            # Mapeo de nombres de colores para la vista previa
+            color_names = {
+                '#3b82f6': 'Azul',
+                '#10b981': 'Verde',
+                '#ef4444': 'Rojo',
+                '#8b5cf6': 'Morado',
+                '#eab308': 'Amarillo',
+                '#6366f1': 'Índigo',
+                '#ec4899': 'Rosa',
+                '#14b8a6': 'Verde Azulado',
+                '#f97316': 'Naranja',
+                '#6b7280': 'Gris',
+            }
+            
+            color_name = color_names.get(obj.color, 'Personalizado')
+            
+            return format_html(
+                '<span style="background-color: {}; padding: 4px 8px; border-radius: 4px; color: #1f2937; font-size: 12px; font-weight: 500; border: 1px solid #d1d5db;">{}</span>',
+                obj.color,
+                color_name
+            )
+        return "Sin color"
+    color_preview.short_description = 'Vista previa'
+    
+    class Media:
+        css = {
+            'all': ('admin/css/categoria_color.css',)
+        }
 
 @admin.register(Raza)
 class RazaAdmin(admin.ModelAdmin):

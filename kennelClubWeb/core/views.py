@@ -70,8 +70,8 @@ def noticias(request):
     # Obtener todas las noticias ordenadas por fecha
     noticias_list = Noticias.objects.all().order_by('-fecha')
     
-    # Configurar paginación - 12 noticias por página (4 columnas x 3 filas)
-    paginator = Paginator(noticias_list, 12)
+    # Configurar paginación - 4 noticias por página (1 noticia por fila en móvil)
+    paginator = Paginator(noticias_list, 4)
     
     # Obtener el número de página de los parámetros GET
     page = request.GET.get('page')
@@ -129,8 +129,8 @@ def eventos(request):
     if mes_filtro:
         eventos_list = eventos_list.filter(fecha_inicio__month=mes_filtro)
     
-    # Configurar paginación - 9 eventos por página
-    paginator = Paginator(eventos_list, 9)
+    # Configurar paginación - 6 eventos por página (3 columnas x 2 filas en desktop)
+    paginator = Paginator(eventos_list, 6)
     
     # Obtener el número de página de los parámetros GET
     page = request.GET.get('page')

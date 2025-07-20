@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ========================================
+   BREAKPOINTS GLOBALES Y RESPONSIVIDAD
+   ======================================== */
+
+/* Nota: Ahora usamos las clases estándar de Tailwind CSS (lg:, md:, etc.) */
+
 /* Ajustes responsivos */
 @media (min-width: 640px) {
     .min-width-container {
@@ -31,23 +37,111 @@
 /* Asegurar que el body y html tengan el ancho mínimo */
 html, body {
     min-width: 320px;
-    overflow-x: auto;
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
 }
 
-#fondoHome {
-    background-image: url('../img/home-dog.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 60vh;
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    overflow: hidden;
+/* Prevenir desbordamiento horizontal global */
+* {
+    box-sizing: border-box;
 }
+
+body {
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Prevenir desbordamiento horizontal en móvil */
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+    }
+    
+    /* Ajustes específicos para el home en móvil */
+    #fondoHome {
+        overflow-x: hidden;
+    }
+    
+    #fondoHome h1 {
+        font-size: 3rem !important;
+        line-height: 1;
+        word-break: break-word;
+    }
+    
+    #fondoHome h2 {
+        font-size: 2rem !important;
+        line-height: 1.2;
+    }
+    
+    #fondoHome .bg-overlay {
+        padding: 1rem;
+    }
+    
+    #fondoHome .flex {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Ajustes para el contenido principal */
+    #fondoHome .max-w-4xl {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    /* Ajustes para las redes sociales */
+    #fondoHome .space-x-4 {
+        gap: 0.5rem;
+    }
+    
+    #fondoHome .space-x-4 a {
+        padding: 0.5rem;
+    }
+    
+    #fondoHome .space-x-4 svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+}
+
+/* Ajustes adicionales para móvil muy pequeño */
+@media (max-width: 480px) {
+    #fondoHome h1 {
+        font-size: 2.5rem !important;
+    }
+    
+    #fondoHome h2 {
+        font-size: 1.75rem !important;
+    }
+    
+    #fondoHome .text-lg {
+        font-size: 1rem;
+    }
+    
+    #fondoHome .space-x-4 {
+        gap: 0.25rem;
+    }
+    
+    #fondoHome .space-x-4 a {
+        padding: 0.375rem;
+    }
+    
+    /* Ajustes para el main en móvil */
+    main {
+        padding-top: 5rem !important;
+        padding-bottom: 5rem !important;
+        overflow-x: hidden;
+    }
+    
+    /* Ajustes para el contenido principal */
+    main .flex-1 {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+}
+
+
 
 .content-section {
     background-color: white;
@@ -185,11 +279,6 @@ html, body {
     animation: typing 5s steps(20) infinite, blink 0.7s infinite;
 }
 
-/* Overlay para el fondo de home */
-.bg-overlay {
-    background: rgba(0, 0, 0, 0.4);
-}
-
 /* Clases de colores para títulos y párrafos */
 .title-color {
     color: #0B3658;
@@ -198,3 +287,400 @@ html, body {
 .paragraph-color {
     color: #1a4a6b;
 }
+
+/* Grid de eventos */
+.eventos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Centrado específico para pocos elementos */
+.eventos-grid:has(> *:only-child) {
+    display: flex;
+    justify-content: center;
+}
+
+.eventos-grid:has(> *:nth-child(2):last-child) {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+/* Tarjetas de eventos */
+.eventos-grid .block {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.eventos-grid .block h5 {
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.eventos-grid .block p {
+    margin-bottom: 0.75rem;
+    flex-grow: 1;
+    overflow: hidden;
+    min-height: 60px;
+}
+
+.eventos-grid .block .font-medium {
+    margin-bottom: 0.5rem;
+}
+
+.eventos-grid .block .text-sm {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .eventos-grid {
+        grid-template-columns: 1fr;
+        justify-content: center;
+    }
+    
+    .filtros-container form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filtros-container .flex {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .filtros-container select,
+    .filtros-container button,
+    .filtros-container a {
+        width: 100%;
+    }
+    
+    /* Panel de redes sociales - ocultar en móvil */
+    .social-panel {
+        display: none;
+    }
+    
+    /* Ajustes de padding para móvil */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Footer responsive */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+/* ========================================
+   ESTILOS RESPONSIVOS PARA MÓVIL PEQUEÑO
+   ======================================== */
+
+@media (max-width: 480px) {
+    /* Header más compacto */
+    header .p-4 {
+        padding: 0.75rem 1rem;
+    }
+    
+    /* Logo más pequeño en móvil */
+    #logo-kennel {
+        height: 2rem;
+    }
+    
+    /* Menú móvil más compacto */
+    #navbar-sticky ul {
+        padding: 0.5rem;
+    }
+    
+    #navbar-sticky li a {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+    
+    /* Botones más pequeños */
+    .desktop-menu\:hidden svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+}
+
+/* ========================================
+   PANEL DE REDES SOCIALES
+   ======================================== */
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.social-instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: white;
+}
+
+.social-facebook {
+    background: #1877f2;
+    color: white;
+}
+
+.social-tiktok {
+    background: #000;
+    color: white;
+}
+
+.social-youtube {
+    background: #ff0000;
+    color: white;
+}
+
+.social-whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   RESPONSIVIDAD PARA TABLET
+   ======================================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Ajustes específicos para tablet */
+    .card {
+        flex-direction: column;
+    }
+    
+    .card-video {
+        flex: none;
+    }
+    
+    .card-content {
+        flex: none;
+    }
+    
+    .eventos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Sidebar oculto en tablet */
+    aside {
+        display: none !important;
+    }
+    
+    /* Panel de redes sociales más pequeño */
+    .social-icon {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .social-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* ========================================
+   RESPONSIVIDAD PARA DESKTOP GRANDE
+   ======================================== */
+
+@media (min-width: 1280px) {
+    /* Ajustes para pantallas grandes */
+    .container {
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+    
+    .eventos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* Sidebar visible solo en desktop grande */
+    aside {
+        display: block !important;
+    }
+}
+
+/* ========================================
+   GRIDS RESPONSIVOS ESPECÍFICOS
+   ======================================== */
+
+/* Grid de noticias responsivo */
+.noticias-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+@media (max-width: 1280px) {
+    .noticias-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .noticias-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .noticias-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Grid específico para home page - solo 2 noticias en responsive */
+.noticias-grid-home {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Contenedor de noticias en home - sin espacios extra */
+.bg-gray-200 {
+    padding-bottom: 0;
+}
+
+@media (min-width: 1024px) {
+    .noticias-grid-home {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .noticias-grid-home {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .noticias-grid-home {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        padding: 0 0.5rem;
+    }
+}
+
+/* ========================================
+   COMPONENTES ACORDEÓN RESPONSIVOS
+   ======================================== */
+
+/* Estilos base para acordeones */
+#accordion-collapse h2:first-child button {
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+}
+
+#accordion-collapse h2:last-child button {
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+#accordion-collapse h2:last-child + div {
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+
+/* Responsividad para acordeones */
+@media (max-width: 768px) {
+    .crianza-container h1,
+    .container h1 {
+        font-size: 2rem;
+    }
+    
+    #accordion-collapse button {
+        padding: 1rem;
+    }
+    
+    #accordion-collapse button span {
+        font-size: 0.9rem;
+    }
+}
+
+/* ========================================
+   UTILIDADES RESPONSIVAS
+   ======================================== */
+
+/* Clases utilitarias para mostrar/ocultar elementos */
+.hide-mobile {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .hide-mobile {
+        display: block;
+    }
+    
+    .show-mobile {
+        display: none;
+    }
+}
+
+/* Ajustes de texto responsivo */
+.text-responsive {
+    font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+    .text-responsive {
+        font-size: 1.125rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .text-responsive {
+        font-size: 1.25rem;
+    }
+}
+
+/* Ajustes de espaciado responsivo */
+.p-responsive {
+    padding: 1rem;
+}
+
+@media (min-width: 768px) {
+    .p-responsive {
+        padding: 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .p-responsive {
+        padding: 2rem;
+    }
+}
+
+

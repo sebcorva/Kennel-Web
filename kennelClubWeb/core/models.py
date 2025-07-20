@@ -6,7 +6,8 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 class CategoriaNoticias(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
-    codigo_categoria = models.CharField(max_length=50, unique=True, help_text="Código único para identificar la categoría")
+    codigo_categoria = models.CharField(max_length=50, unique=True)
+    color = models.CharField(max_length=100, blank=True, null=True)
     
     def __str__(self):
         return self.nombre

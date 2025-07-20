@@ -53,10 +53,10 @@
         {% if eventos %}
             {% for evento in eventos %}
             <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 relative">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight title-color">{{ evento.tipo_evento }}</h5>
+                <h5 class="mb-2 text-2xl font-bold tracking-tight title-color" style="height: 60px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.2;">{{ evento.tipo_evento }}</h5>
                 
                 {% if evento.descripcion %}
-                <p class="font-normal paragraph-color mb-3">{{ evento.descripcion }}</p>
+                <p class="font-normal paragraph-color mb-3" style="max-height: 72px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; line-height: 1.4; word-wrap: break-word; text-overflow: ellipsis; position: relative;">{{ evento.descripcion }}</p>
                 {% endif %}
                 
                 <!-- Días del evento -->
@@ -66,13 +66,6 @@
                     {% for dia in evento.dias_formateados %}
                     {% if not forloop.first %}, {% endif %}{{ dia }}
                     {% endfor %}
-                </p>
-                {% endif %}
-                
-                <!-- Invitados -->
-                {% if evento.invitados %}
-                <p class="text-sm text-gray-500 mb-4">
-                    <strong>Invitados:</strong> {{ evento.invitados }}
                 </p>
                 {% endif %}
                 

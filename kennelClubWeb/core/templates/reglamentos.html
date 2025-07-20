@@ -35,7 +35,7 @@
         <!-- Reglamentos Content -->
         {% if reglamentos %}
         <div class="max-w-7xl mx-auto">
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div class="relative shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
@@ -53,8 +53,8 @@
                     <tbody class="reglamentos-tbody">
                         {% for reglamento in reglamentos %}
                         <tr class="reglamento-row bg-white border-b border-gray-200 hover:bg-gray-50" data-nombre="{{ reglamento.nombreReglamento|lower }}">
-                            <th scope="row" class="px-6 py-4 text-gray-900 whitespace-nowrap">
-                                <div class="text-base font-semibold">{{ reglamento.nombreReglamento }}</div>
+                            <th scope="row" class="px-6 py-4 text-gray-900">
+                                <div class="text-base font-semibold break-words">{{ reglamento.nombreReglamento }}</div>
                             </th>
                             <td class="px-6 py-4">
                                 <span class="text-blue-600 font-medium">{{ reglamento.fecha_creacion|date:"d/m/Y" }}</span>
