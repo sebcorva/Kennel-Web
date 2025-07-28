@@ -287,3 +287,7 @@ def login(request):
         else:
             error = 'Nombre de usuario o contraseña incorrectos.'
     return render(request, 'login.html', {'error': error})
+
+def error(request):
+
+    return render(request, 'error.html')

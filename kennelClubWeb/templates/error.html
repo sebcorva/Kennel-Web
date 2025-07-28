@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/kennel-club-chile.png' %}" type="image/png">
+    <link rel="apple-touch-icon" href="{% static 'img/kennel-club-chile.png' %}">
+    
+    <title>Trabajo en Proceso | Kennel Club de Chile</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Estilos personalizados -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .hover-scale {
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <div class="min-h-screen flex items-center justify-center py-5">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <!-- Mensaje principal -->
+            <div class="mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    Estamos trabajando en nuestra página
+                </h1>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Nuestro equipo está trabajando arduamente para mejorar tu experiencia en Kennel Club de Chile
+                </p>
+            </div>
+
+            <!-- SVG de error/trabajo en proceso -->
+            <div class="mb-12 flex justify-center">
+                <img src="{% static 'img/error.svg' %}" 
+                     alt="Trabajo en proceso - Kennel Club de Chile" 
+                     class="max-w-md w-full h-auto hover-scale"
+                     style="max-height: 400px;">
+            </div>
+
+            <!-- Mensaje de agradecimiento -->
+            <div class="bg-white rounded-2xl card-shadow p-8 max-w-2xl mx-auto">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                    ¡Gracias por visitar Kennel Club de Chile!
+                </h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    Pronto estaremos disponibles para ti con todas nuestras funcionalidades mejoradas.
+                </p>
+
+                <!-- Información de contacto -->
+                <div class="border-t border-gray-200 pt-4">
+                    <p class="text-sm text-gray-500 mb-2">¿Necesitas contactarnos?</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center text-sm">
+                        <!-- <span class="text-gray-600">
+                            📧 contacto@kennelclub.cl
+                        </span> -->
+                        <span class="text-gray-600">
+                            📞 +56 2 25970200
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
