@@ -218,8 +218,9 @@ CKEDITOR_5_UPLOAD_PATH = "ck_editor_5/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'scerberus1994@gmail.com'
-EMAIL_HOST_PASSWORD = 'lgzr penj llyi yqqu'
+EMAIL_HOST = 'mail.kennelclubdechile.cl'  # Servidor SMTP de tu dominio
+EMAIL_PORT = 465  # Puerto SSL
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'prueba@kennelclubdechile.cl'
+EMAIL_HOST_PASSWORD = ',QIV%[Z;iyp&w6NY'

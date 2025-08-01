@@ -102,4 +102,13 @@ LOGGING = {
             'propagate': True,
         },
     },
-} 
+}
+
+# Configuración de correo electrónico para producción
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ['EMAIL_HOST']  # Debe estar definido en env_production.py
+EMAIL_PORT = int(os.environ['EMAIL_PORT'])  # Debe estar definido en env_production.py
+EMAIL_USE_SSL = os.environ['EMAIL_USE_SSL'].lower() == 'true'  # Debe estar definido en env_production.py
+EMAIL_USE_TLS = os.environ['EMAIL_USE_TLS'].lower() == 'true'  # Debe estar definido en env_production.py
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']  # Debe estar definido en env_production.py
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']  # Debe estar definido en env_production.py 

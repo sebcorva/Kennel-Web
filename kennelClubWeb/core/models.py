@@ -5,9 +5,31 @@ from django_ckeditor_5.fields import CKEditor5Field
 # Create your models here.
 
 class CategoriaNoticias(models.Model):
+    COLOR_CHOICES = [
+        ('', 'Sin color'),
+        # Colores Cálidos
+        ('#e35454', 'Rojo'),
+        ('#f17a4a', 'Naranja'),
+        ('#e6c34d', 'Amarillo'),
+        ('#f0a754', 'Ámbar'),
+        # Colores Fríos
+        ('#5b9bd5', 'Azul'),
+        ('#70ad47', 'Verde'),
+        ('#9e7bb5', 'Morado'),
+        ('#4bc0c0', 'Turquesa'),
+        # Grises
+        ('#9e9e9e', 'Gris'),
+    ]
+    
     nombre = models.CharField(max_length=100, unique=True)
     codigo_categoria = models.CharField(max_length=50, unique=True)
-    color = models.CharField(max_length=100, blank=True, null=True)
+    color = models.CharField(
+        max_length=7, 
+        choices=COLOR_CHOICES,
+        blank=True, 
+        null=True,
+        help_text='Selecciona un color cálido para la categoría'
+    )
     
     def __str__(self):
         return self.nombre

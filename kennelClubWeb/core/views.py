@@ -1,11 +1,17 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.mail import send_mail
+from django.contrib import messages
+from django.conf import settings
+from django.core.validators import EmailValidator
+from django.core.exceptions import ValidationError
 from .models import Noticias, Juez, TipoJuez, Evento, Ranking, Reglamentos, Crianza, HistoriaRazas, FotoHistoriaRaza, Tramites, PreguntasFrecuentes
 from datetime import datetime, timedelta
+import re
 
 # Create your views here.
 def home(request):
@@ -270,9 +276,105 @@ def detalle_preguntas_frecuentes(request, categoria):
         'categoria': categoria,
         'categoria_nombre': categoria_nombre,
         'preguntas': preguntas
-    })
+         })
 
 def contacto(request):
+    if request.method == 'POST':
+        try:
+            # Importar send_mail aquí para asegurar que esté disponible
+            from django.core.mail import send_mail
+            
+            # Obtener los datos del formulario
+            nombre = request.POST.get('nombre', '').strip()
+            email = request.POST.get('email', '').strip()
+            asunto = request.POST.get('asunto', '').strip()
+            mensaje = request.POST.get('mensaje', '').strip()
+            
+            # Validar campos y recopilar errores
+            field_errors = {}
+            
+            if not nombre:
+                field_errors['nombre'] = 'El nombre es obligatorio'
+            elif len(nombre) < 2:
+                field_errors['nombre'] = 'El nombre debe tener al menos 2 caracteres'
+            
+            if not email:
+                field_errors['email'] = 'El email es obligatorio'
+            else:
+                email_validator = EmailValidator()
+                try:
+                    email_validator(email)
+                except ValidationError:
+                    field_errors['email'] = 'Formato de email inválido'
+                
+                email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+                if not re.match(email_pattern, email):
+                    field_errors['email'] = 'Formato de email inválido'
+                
+                domain = email.split('@')[1].lower()
+                temp_domains = ['10minutemail.com', 'tempmail.org', 'guerrillamail.com', 'mailinator.com']
+                if domain in temp_domains:
+                    field_errors['email'] = 'No se permiten emails temporales'
+            
+            if not asunto:
+                field_errors['asunto'] = 'El asunto es obligatorio'
+            elif len(asunto) < 5:
+                field_errors['asunto'] = 'El asunto debe tener al menos 5 caracteres'
+            
+            if not mensaje:
+                field_errors['mensaje'] = 'El mensaje es obligatorio'
+            elif len(mensaje) < 10:
+                field_errors['mensaje'] = 'El mensaje debe tener al menos 10 caracteres'
+            
+            # Si hay errores, devolverlos
+            if field_errors:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Por favor, corrige los errores en el formulario',
+                    'field_errors': field_errors
+                }, status=400)
+            
+            # Crear el contenido del correo
+            email_content = f"""
+Nuevo mensaje de contacto desde el sitio web Kennel Club de Chile
+
+Nombre: {nombre}
+Email: {email}
+Asunto: {asunto}
+
+Mensaje:
+{mensaje}
+
+---
+Este mensaje fue enviado desde el formulario de contacto del sitio web.
+            """
+            
+            # Enviar el correo
+            send_mail(
+                subject=f'Nuevo mensaje de contacto: {asunto}',
+                message=email_content,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[settings.EMAIL_HOST_USER],
+                fail_silently=False,
+            )
+            
+            # Devolver respuesta de éxito en formato JSON
+            return JsonResponse({
+                'success': True,
+                'message': '¡Mensaje enviado exitosamente! Nos pondremos en contacto contigo pronto.'
+            }, status=200)
+            
+        except Exception as e:
+            # Log del error para debug
+            print(f"ERROR EN FORMULARIO DE CONTACTO: {e}")
+            print(f"Tipo de error: {type(e).__name__}")
+            
+            # Devolver error en formato JSON
+            return JsonResponse({
+                'success': False,
+                'message': f'Error al enviar mensaje: {str(e)}'
+            }, status=500)
+    
     return render(request, 'contacto.html')
 
 def login(request):

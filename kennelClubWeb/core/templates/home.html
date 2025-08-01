@@ -128,7 +128,7 @@
                     {% if noticia.categorias.all %}
                     <div class="flex flex-wrap gap-1">
                         {% for categoria in noticia.categorias.all %}
-                        <span class="px-2 py-1 rounded-full text-xs font-medium" style="background-color: {% if categoria.color %}{{ categoria.color }}{% else %}#6b7280{% endif %}; color: #1f2937;">
+                        <span class="px-2 py-1 rounded-full text-xs font-medium" style="background-color: {% if categoria.color %}{{ categoria.color }}{% else %}#6b7280{% endif %}; color: white;">
                             {{ categoria.nombre }}
                         </span>
                         {% endfor %}
