@@ -1,0 +1,245 @@
+/* Estilos personalizados para CKEditor 5 */
+
+/* Mejorar la apariencia del editor */
+.ck-editor__editable {
+    min-height: 300px;
+    max-height: 600px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+/* Estilos para el contenido del editor */
+.ck-editor__editable h1 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.ck-editor__editable h2 {
+    color: #34495e;
+    border-bottom: 1px solid #bdc3c7;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.ck-editor__editable h3 {
+    color: #7f8c8d;
+    margin-bottom: 12px;
+}
+
+.ck-editor__editable blockquote {
+    border-left: 4px solid #3498db;
+    background-color: #f8f9fa;
+    padding: 15px;
+    margin: 20px 0;
+    font-style: italic;
+    color: #555;
+}
+
+.ck-editor__editable code {
+    background-color: #f1f2f6;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    color: #e74c3c;
+}
+
+.ck-editor__editable pre {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+.ck-editor__editable pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+/* Estilos para tablas */
+.ck-editor__editable table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 15px 0;
+}
+
+.ck-editor__editable table th,
+.ck-editor__editable table td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.ck-editor__editable table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.ck-editor__editable table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.ck-editor__editable table tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Estilos para imágenes */
+.ck-editor__editable img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Estilos para enlaces */
+.ck-editor__editable a {
+    color: #3498db;
+    text-decoration: none;
+    border-bottom: 1px dotted #3498db;
+}
+
+.ck-editor__editable a:hover {
+    color: #2980b9;
+    border-bottom: 1px solid #2980b9;
+}
+
+/* Estilos para listas */
+.ck-editor__editable ul,
+.ck-editor__editable ol {
+    padding-left: 25px;
+    margin: 15px 0;
+}
+
+.ck-editor__editable li {
+    margin-bottom: 5px;
+}
+
+/* Estilos para líneas horizontales */
+.ck-editor__editable hr {
+    border: none;
+    border-top: 2px solid #bdc3c7;
+    margin: 30px 0;
+}
+
+/* Mejorar la barra de herramientas */
+.ck-toolbar {
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    background-color: #f8f9fa;
+}
+
+/* Estilos para el modo de edición de código fuente */
+.ck-editor__editable[data-gramm="false"] {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+}
+
+/* Estilos para caracteres especiales */
+.ck-editor__editable .special-character {
+    font-size: 1.2em;
+    color: #e74c3c;
+}
+
+/* Estilos para texto resaltado */
+.ck-editor__editable mark {
+    background-color: #f1c40f;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+/* Estilos para texto tachado */
+.ck-editor__editable s {
+    color: #7f8c8d;
+}
+
+/* Estilos para texto subíndice y superíndice */
+.ck-editor__editable sub,
+.ck-editor__editable sup {
+    font-size: 0.75em;
+    line-height: 0;
+}
+
+/* Estilos para alineación de texto */
+.ck-editor__editable .text-center {
+    text-align: center;
+}
+
+.ck-editor__editable .text-right {
+    text-align: right;
+}
+
+.ck-editor__editable .text-justify {
+    text-align: justify;
+}
+
+/* Estilos para el contenedor del editor */
+.ck.ck-editor {
+    margin-bottom: 20px;
+}
+
+/* Estilos para el área de contenido */
+.ck.ck-editor__main {
+    background-color: white;
+}
+
+/* Estilos para el estado de foco */
+.ck-editor__editable:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Estilos para el estado de error */
+.ck-editor__editable.ck-error {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+/* Estilos para el estado de éxito */
+.ck-editor__editable.ck-success {
+    border-color: #27ae60;
+    box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .ck-editor__editable {
+        min-height: 200px;
+        font-size: 16px; /* Evita zoom en iOS */
+    }
+    
+    .ck-toolbar {
+        flex-wrap: wrap;
+    }
+    
+    .ck-toolbar .ck-toolbar__items {
+        flex-wrap: wrap;
+    }
+}
+
+/* Estilos para el modo de impresión */
+@media print {
+    .ck-editor__editable {
+        border: none;
+        box-shadow: none;
+        min-height: auto;
+        max-height: none;
+    }
+    
+    .ck-toolbar {
+        display: none;
+    }
+} 

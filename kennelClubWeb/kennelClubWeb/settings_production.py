@@ -3,6 +3,7 @@ Django settings for pruebaWeb project - Production configuration.
 """
 
 from .settings import *
+from .ckeditor_config import CKEDITOR_5_CONFIGS
 import os
 from pathlib import Path
 
@@ -106,9 +107,9 @@ LOGGING = {
 
 # Configuración de correo electrónico para producción
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ['EMAIL_HOST']  # Debe estar definido en env_production.py
-EMAIL_PORT = int(os.environ['EMAIL_PORT'])  # Debe estar definido en env_production.py
-EMAIL_USE_SSL = os.environ['EMAIL_USE_SSL'].lower() == 'true'  # Debe estar definido en env_production.py
-EMAIL_USE_TLS = os.environ['EMAIL_USE_TLS'].lower() == 'true'  # Debe estar definido en env_production.py
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']  # Debe estar definido en env_production.py
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']  # Debe estar definido en env_production.py 
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'mail.kennelclubdechile.cl')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '465'))
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'True').lower() == 'true'
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'False').lower() == 'true'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'prueba@kennelclubdechile.cl')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', ',QIV%[Z;iyp&w6NY') 

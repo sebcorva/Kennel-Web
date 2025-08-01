@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django_ckeditor_5.fields import CKEditor5Field
+from django.utils import timezone
 
 # Create your models here.
 
@@ -43,7 +44,7 @@ class CategoriaNoticias(models.Model):
 class Noticias(models.Model):
     titulo = models.CharField(max_length=200)
     texto = CKEditor5Field(blank=True, null=True)
-    fecha = models.DateTimeField(auto_now_add=True)
+    fecha = models.DateTimeField(default=timezone.now)
     imagen = models.ImageField(upload_to='noticias/', null=True, blank=True)
     categorias = models.ManyToManyField(CategoriaNoticias, related_name='noticias', blank=True)
 

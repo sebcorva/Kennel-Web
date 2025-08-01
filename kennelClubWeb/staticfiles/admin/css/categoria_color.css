@@ -1,0 +1,66 @@
+/* Estilos para el selector de colores en el admin de categorías */
+.color-selector {
+    border: 2px solid #ddd !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    background-color: white !important;
+    color: #000000 !important;
+    transition: border-color 0.3s ease !important;
+}
+
+.color-selector option {
+    color: #000000 !important;
+    background-color: white !important;
+    padding: 8px !important;
+}
+
+.color-selector:hover {
+    border-color: #007cba !important;
+}
+
+.color-selector:focus {
+    border-color: #007cba !important;
+    outline: none !important;
+    box-shadow: 0 0 5px rgba(0, 124, 186, 0.3) !important;
+}
+
+/* Estilos para la vista previa de color en la lista */
+.field-color_preview span {
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+    font-weight: 500;
+    border: 1px solid #ddd;
+}
+
+/* Mejorar la apariencia del formulario */
+.form-row .field-color_selector {
+    margin-bottom: 10px;
+}
+
+.form-row .field-color_selector label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-row .field-color {
+    margin-top: 10px;
+}
+
+.form-row .field-color label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Estilo para el campo de color (solo lectura) */
+.form-row .field-color input {
+    background-color: #f9f9f9 !important;
+    border: 1px solid #ddd !important;
+    color: #666 !important;
+    font-family: monospace !important;
+} 

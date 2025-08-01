@@ -14,7 +14,12 @@ class NoticiasAdmin(admin.ModelAdmin):
     formfield_overrides = {
         'texto': {'widget': CKEditor5Widget(config_name='extends')}
     }
-    
+    fieldsets = (
+        ('Información de la Noticia', {
+            'fields': ('titulo', 'texto', 'fecha', 'imagen', 'categorias')
+        }),
+    )
+     
     def categorias_display(self, obj):
         return ", ".join([cat.nombre for cat in obj.categorias.all()])
     categorias_display.short_description = 'Categorías'
