@@ -3,22 +3,17 @@ from django.core.validators import RegexValidator
 from django_ckeditor_5.fields import CKEditor5Field
 from django.utils import timezone
 
-# Create your models here.
-
 class CategoriaNoticias(models.Model):
     COLOR_CHOICES = [
         ('', 'Sin color'),
-        # Colores Cálidos
         ('#e35454', 'Rojo'),
         ('#f17a4a', 'Naranja'),
         ('#e6c34d', 'Amarillo'),
         ('#f0a754', 'Ámbar'),
-        # Colores Fríos
         ('#5b9bd5', 'Azul'),
         ('#70ad47', 'Verde'),
         ('#9e7bb5', 'Morado'),
         ('#4bc0c0', 'Turquesa'),
-        # Grises
         ('#9e9e9e', 'Gris'),
     ]
     

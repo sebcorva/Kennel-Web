@@ -53,15 +53,15 @@
         {% if eventos %}
             {% for evento in eventos %}
             <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 relative">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight title-color" style="height: 60px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.2;">{{ evento.tipo_evento }}</h5>
+                <h5 class="mb-2 text-2xl font-bold tracking-tight title-color evento-titulo">{{ evento.tipo_evento }}</h5>
                 
                 {% if evento.descripcion %}
-                <p class="font-normal paragraph-color mb-3" style="max-height: 72px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; line-height: 1.4; word-wrap: break-word; text-overflow: ellipsis; position: relative;">{{ evento.descripcion }}</p>
+                <p class="font-normal paragraph-color mb-1 evento-descripcion">{{ evento.descripcion }}</p>
                 {% endif %}
                 
                 <!-- Días del evento -->
                 {% if evento.dias_formateados %}
-                <p class="font-medium text-gray-600 mb-3">
+                <p class="font-medium text-gray-600 mb-1">
                     <strong>Fechas:</strong>
                     {% for dia in evento.dias_formateados %}
                     {% if not forloop.first %}, {% endif %}{{ dia }}
@@ -71,7 +71,7 @@
                 
                 <!-- Badge del lugar -->
                 <div class="absolute bottom-4 right-4">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    <span class="inline-flex items-center px-2.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                         📍 {{ evento.lugar }}
                     </span>
                 </div>
@@ -127,5 +127,4 @@
     </div>
     {% endif %}
 </div>
-
 {% endblock %} 

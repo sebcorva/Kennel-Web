@@ -19,7 +19,6 @@
                         <img src="{{ foto.imagen.url }}" class="w-full h-full object-contain" alt="{{ historia.titulo }} - Foto {{ forloop.counter }}">
                     </div>
                 {% endfor %}
-
                 <!-- Indicadores -->
                 {% if fotos|length > 1 %}
                     <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
@@ -78,7 +77,6 @@
                                 </div>
                             {% endif %}
                         </div>
-
                         <!-- Información del club -->
                         <div class="md:w-2/3 p-6 flex flex-col justify-between">
                             <div>
@@ -161,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showSlide(currentIndex);
     }
 
-    // Event listeners
+    // Eventos listeners
     if (prevBtn) prevBtn.addEventListener('click', prevSlide);
     if (nextBtn) nextBtn.addEventListener('click', nextSlide);
 

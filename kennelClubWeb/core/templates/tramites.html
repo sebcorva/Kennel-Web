@@ -21,15 +21,17 @@
                 </button>
             </h2>
             <div id="accordion-collapse-body-{{ forloop.counter }}" class="hidden" aria-labelledby="accordion-collapse-heading-{{ forloop.counter }}">
+                <!-- Contenido del tramite -->
                 <div class="p-5 border border-b-0 border-gray-200">
                     {% if tramite.imagen %}
+                    <!-- Imagen del tramite -->
                     <div class="mb-4 flex justify-center">
                         <img src="{{ tramite.imagen.url }}" 
                              alt="Imagen de {{ tramite.nombre }}" 
                              class="max-w-full max-h-64 object-contain rounded-lg shadow-md">
                     </div>
                     {% endif %}
-                    
+                    <!-- Descripción del tramite -->
                     {% if tramite.descripcion %}
                     <div class="text-justify mb-4">
                         {{ tramite.descripcion|safe }}
@@ -37,7 +39,7 @@
                     {% else %}
                     <p class="text-gray-500 italic mb-4">Sin descripción disponible</p>
                     {% endif %}
-                    
+                    <!-- Archivos relacionados -->
                     {% if tramite.archivos.all %}
                     <div class="mt-6">
                         <h4 class="text-lg font-semibold title-color mb-3">Archivos relacionados:</h4>
@@ -56,6 +58,7 @@
                                         {% endif %}
                                     </span>
                                 </div>
+                                <!-- Descargar archivo -->
                                 <a href="{{ archivo.archivo.url }}" 
                                    target="_blank" 
                                    rel="noopener noreferrer"
@@ -73,6 +76,7 @@
                 </div>
             </div>
             {% empty %}
+            <!-- Mensaje de no resultados -->
             <div class="text-center py-12">
                 <div class="bg-gray-100 rounded-lg p-8 max-w-md mx-auto">
                     <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,6 +90,6 @@
     </div>
 </div>
 
-<!-- Script para el acordeón (Flowbite) -->
+<!-- Script para el acordeón-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 {% endblock %} 

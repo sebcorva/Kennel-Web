@@ -8,9 +8,10 @@
     <p class="text-lg paragraph-color mb-8 text-center max-w-3xl mx-auto px-4">
         Información esencial sobre pedigree, displasia de caderas, microchips y todos los procedimientos necesarios para una crianza responsable y profesional.
     </p>
-    
+    <!-- Sección de Accordion de informaciòn de crianzas-->
     <div class="max-w-4xl mx-auto px-4">
         <div id="accordion-collapse" data-accordion="collapse">
+            <!--1er elemento del accordion: Pedigree-->
             <h2 id="accordion-collapse-heading-1">
                 <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3" data-accordion-target="#accordion-collapse-body-1" aria-expanded="false" aria-controls="accordion-collapse-body-1">
                     <span class="text-gray-500">Pedigree</span>
@@ -40,7 +41,7 @@
                     </p>
                 </div>
             </div>
-            
+            <!--2er elemento del accordion: Displasia de Caderas-->
             <h2 id="accordion-collapse-heading-2">
                 <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3" data-accordion-target="#accordion-collapse-body-2" aria-expanded="false" aria-controls="accordion-collapse-body-2">
                     <span class="text-gray-500">Displasia de Caderas</span>
@@ -101,7 +102,7 @@
                     </div>
                 </div>
             </div>
-            
+            <!--3er elemento del accordion: Procedimiento Displasia de Caderas-->
             <h2 id="accordion-collapse-heading-3">
                 <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3" data-accordion-target="#accordion-collapse-body-3" aria-expanded="false" aria-controls="accordion-collapse-body-3">
                     <span class="text-gray-500">Procedimiento Displasia de Caderas</span>
@@ -142,7 +143,7 @@
                     <p class="text-justify mb-2 ml-4">Se puede apelar al diagnóstico de displasia emitido, lo que se deberá solicitar a la Comisión de Crianza del KCC exponiendo los motivos de dicha apelación. Una vez autorizado puede solicitar una nueva interpretación a otro profesional que esté entre los autorizados por el KCC, interpretación que deberá cancelar el solicitante. La decisión del proceso de apelación es inapelable. Para este nuevo diagnóstico se utilizarán las mismas placas que se usaron para el primer diagnóstico.</p>
                 </div>
             </div>
-            
+            <!--4er elemento del accordion: Microchips-->
             <h2 id="accordion-collapse-heading-4">
                 <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3" data-accordion-target="#accordion-collapse-body-4" aria-expanded="false" aria-controls="accordion-collapse-body-4">
                     <span class="text-gray-500">Microchips</span>
@@ -201,6 +202,7 @@
                     </ul>
                 </div>
             </div>
+            <!--5er elemento del accordion: Directrices de Crianza-->
             <h2 id="accordion-collapse-heading-5">
                 <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3" data-accordion-target="#accordion-collapse-body-5" aria-expanded="false" aria-controls="accordion-collapse-body-5">
                     <span class="text-gray-500">Directrices de Crianza</span>
@@ -234,31 +236,4 @@
         </div>
     </div>
 </div>
-
-<style>
-    .crianza-container {
-        min-height: 60vh;
-    }
-    
-    /* Estilos para el acordeón */
-    #accordion-collapse h2:first-child button {
-        border-top-left-radius: 0.75rem;
-        border-top-right-radius: 0.75rem;
-    }
-    
-    #accordion-collapse h2:last-child button {
-        border-bottom-left-radius: 0.75rem;
-        border-bottom-right-radius: 0.75rem;
-        border-bottom: 1px solid #e5e7eb;
-    }
-    
-    #accordion-collapse h2:last-child + div {
-        border-bottom-left-radius: 0.75rem;
-        border-bottom-right-radius: 0.75rem;
-    }
-    
-
-    
-    /* Los estilos responsivos están centralizados en style.css */
-</style>
 {% endblock %} 

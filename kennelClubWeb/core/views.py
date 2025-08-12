@@ -68,7 +68,6 @@ def sitemap_xml(request):
     return HttpResponse(xml_content, content_type='application/xml')
 
 def robots_txt(request):
-    """Sirve el archivo robots.txt"""
     robots_content = render_to_string('robots.txt')
     return HttpResponse(robots_content, content_type='text/plain')
 
@@ -112,7 +111,7 @@ def jueces_nacionales(request):
     jueces_por_tipo = {}
     for tipo in tipos_juez:
         jueces = Juez.objects.filter(tipo_juez=tipo, activo=True).order_by('apellido_paterno', 'apellido_materno', 'nombres')
-        if jueces.exists():  # Solo incluir tipos que tengan jueces
+        if jueces.exists():
             jueces_por_tipo[tipo] = jueces
     
     return render(request, 'jueces_nacionales.html', {
@@ -121,7 +120,6 @@ def jueces_nacionales(request):
     })
 
 def eventos(request):
-    # Obtener parámetros de filtro
     año_filtro = request.GET.get('año')
     mes_filtro = request.GET.get('mes')
     
@@ -135,7 +133,7 @@ def eventos(request):
     if mes_filtro:
         eventos_list = eventos_list.filter(fecha_inicio__month=mes_filtro)
     
-    # Configurar paginación - 6 eventos por página (3 columnas x 2 filas en desktop)
+    # Configurar paginación - 6 eventos por página
     paginator = Paginator(eventos_list, 6)
     
     # Obtener el número de página de los parámetros GET
@@ -144,10 +142,8 @@ def eventos(request):
     try:
         eventos = paginator.page(page)
     except PageNotAnInteger:
-        # Si la página no es un número, mostrar la primera página
         eventos = paginator.page(1)
     except EmptyPage:
-        # Si la página está fuera del rango, mostrar la última página
         eventos = paginator.page(paginator.num_pages)
     
     # Diccionario para convertir meses a español
@@ -162,7 +158,6 @@ def eventos(request):
     # Procesar los días de cada evento
     for evento in eventos:
         evento.dias_lista = []
-        # Convertir DateField a datetime.date para operaciones
         fecha_actual = evento.fecha_inicio
         fecha_fin = evento.fecha_termino
         
@@ -239,7 +234,6 @@ def detalle_historia_raza(request, historia_id):
     })
 
 def tramites(request):
-    # Orden específico solicitado
     orden_especifico = [
         'Trámites a distancia',
         'Obtención de Kennel Name, afijo o nombre de criadero, Declaración Jurada Criadero en Web', 
@@ -262,7 +256,6 @@ def tramites(request):
     return render(request, 'tramites.html', {'tramites': tramites_ordenados})
 
 def preguntas_frecuentes(request):
-    # Obtener las categorías disponibles del modelo
     categorias = PreguntasFrecuentes.CATEGORIA_CHOICES
     
     return render(request, 'preguntas_frecuentes.html', {'categorias': categorias})
@@ -281,16 +274,13 @@ def detalle_preguntas_frecuentes(request, categoria):
 def contacto(request):
     if request.method == 'POST':
         try:
-            # Importar send_mail aquí para asegurar que esté disponible
             from django.core.mail import send_mail
             
-            # Obtener los datos del formulario
             nombre = request.POST.get('nombre', '').strip()
             email = request.POST.get('email', '').strip()
             asunto = request.POST.get('asunto', '').strip()
             mensaje = request.POST.get('mensaje', '').strip()
             
-            # Validar campos y recopilar errores
             field_errors = {}
             
             if not nombre:
@@ -326,7 +316,6 @@ def contacto(request):
             elif len(mensaje) < 10:
                 field_errors['mensaje'] = 'El mensaje debe tener al menos 10 caracteres'
             
-            # Si hay errores, devolverlos
             if field_errors:
                 return JsonResponse({
                     'success': False,
@@ -334,7 +323,7 @@ def contacto(request):
                     'field_errors': field_errors
                 }, status=400)
             
-            # Crear el contenido del correo
+            # Contenido del correo
             email_content = f"""
 Nuevo mensaje de contacto desde el sitio web Kennel Club de Chile
 
@@ -348,8 +337,6 @@ Mensaje:
 ---
 Este mensaje fue enviado desde el formulario de contacto del sitio web.
             """
-            
-            # Enviar el correo
             send_mail(
                 subject=f'Nuevo mensaje de contacto: {asunto}',
                 message=email_content,
@@ -358,18 +345,15 @@ Este mensaje fue enviado desde el formulario de contacto del sitio web.
                 fail_silently=False,
             )
             
-            # Devolver respuesta de éxito en formato JSON
             return JsonResponse({
                 'success': True,
                 'message': '¡Mensaje enviado exitosamente! Nos pondremos en contacto contigo pronto.'
             }, status=200)
             
         except Exception as e:
-            # Log del error para debug
             print(f"ERROR EN FORMULARIO DE CONTACTO: {e}")
             print(f"Tipo de error: {type(e).__name__}")
             
-            # Devolver error en formato JSON
             return JsonResponse({
                 'success': False,
                 'message': f'Error al enviar mensaje: {str(e)}'
@@ -377,19 +361,104 @@ Este mensaje fue enviado desde el formulario de contacto del sitio web.
     
     return render(request, 'contacto.html')
 
+def validacion_username(username):
+    # Valida que el username no contenga patrones peligrosos
+    
+    if not username:
+        return False, "El nombre de usuario no puede estar vacío"
+    
+    # Convertir a minúsculas para comparaciones
+    username_lower = username.lower()
+    
+    # Patrones peligrosos de inyección SQL
+    sql_patterns = [
+        'drop', 'delete', 'insert', 'update', 'select', 'union', 'exec', 'execute',
+        'script', 'javascript', 'vbscript', 'onload', 'onerror', 'onclick',
+        '--', '/*', '*/', 'xp_', 'sp_', 'sysobjects', 'syscolumns',
+        'information_schema', 'master..', 'temp..', 'char(', 'nchar(',
+        'varchar(', 'nvarchar(', 'convert(', 'cast(', 'declare', 'begin',
+        'end', 'if', 'else', 'case', 'when', 'then', 'while', 'for',
+        'break', 'continue', 'return', 'goto', 'waitfor', 'delay',
+        'backup', 'restore', 'shutdown', 'kill', 'dbcc', 'reconfigure'
+    ]
+    
+    # Patrones de comandos del sistema
+    system_patterns = [
+        'cmd', 'powershell', 'bash', 'sh', 'net', 'ipconfig', 'ping',
+        'tracert', 'nslookup', 'telnet', 'ftp', 'ssh', 'scp', 'wget',
+        'curl', 'nc', 'netcat', 'nmap', 'dir', 'ls', 'cat', 'type',
+        'echo', 'set', 'env', 'system', 'shell', 'terminal', 'console'
+    ]
+    
+    # Patrones de archivos peligrosos
+    file_patterns = [
+        '..', '\\', '//', '~', 'root', 'home', 'etc', 'var', 'tmp',
+        'temp', 'windows', 'system32', 'program files', 'users',
+        '.exe', '.bat', '.cmd', '.ps1', '.sh', '.py', '.php', '.js',
+        '.vbs', '.jar', '.war', '.ear', '.dll', '.so', '.dylib'
+    ]
+    
+    # Patrones de caracteres especiales peligrosos
+    dangerous_chars = ['<', '>', '"', "'", '&', '|', ';', '`', '$', '{', '}', '[', ']']
+    
+    # Verificar patrones SQL
+    for pattern in sql_patterns:
+        if pattern in username_lower:
+            return False, f"Ingrese un Nombre de usuario válido"
+    
+    # Verificar patrones del sistema
+    for pattern in system_patterns:
+        if pattern in username_lower:
+            return False, f"Ingrese un Nombre de usuario válido"
+    
+    # Verificar patrones de archivos
+    for pattern in file_patterns:
+        if pattern in username_lower:
+            return False, f"Ingrese un Nombre de usuario válido"
+    
+    # Verificar caracteres peligrosos
+    for char in dangerous_chars:
+        if char in username:
+            return False, f"Ingrese un Nombre de usuario válido"
+    
+    # Verificar longitud mínima y máxima
+    if len(username) < 3:
+        return False, "El Nombre de usuario debe tener al menos 3 caracteres"
+    
+    if len(username) > 30:
+        return False, "El Nombre de usuario no puede exceder 30 caracteres"
+    
+    # Verificar que solo contenga caracteres alfanuméricos, guiones y guiones bajos
+    if not re.match(r'^[a-zA-Z0-9_-]+$', username):
+        return False, "El Nombre de usuario solo puede contener letras, números, guiones y guiones bajos"
+    
+    # Verificar que no empiece o termine con caracteres especiales
+    if username.startswith(('-', '_')) or username.endswith(('-', '_')):
+        return False, "El Nombre de usuario no puede empezar o terminar con guiones o guiones bajos"
+    
+    return True, "Nombre de usuario válido"
+
 def login(request):
     error = None
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        
+        # Validar seguridad del username
+        is_valid, validation_message = validacion_username(username)
+        if not is_valid:
+            error = validation_message
+            return render(request, 'login.html', {'error': error})
+        
+        # Continuar con la autenticación
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
             error = 'Nombre de usuario o contraseña incorrectos.'
+    
     return render(request, 'login.html', {'error': error})
 
 def error(request):
-
     return render(request, 'error.html')
