@@ -6,6 +6,7 @@
 {% block content %}
 <div class="">
     <div class="container mx-auto px-4">
+        <!-- Header -->
         <div class="text-center mb-12">
             <h1 class="text-4xl font-bold title-color mb-4">Jueces Nacionales</h1>
             <p class="text-lg paragraph-color max-w-3xl mx-auto">
@@ -13,10 +14,10 @@
             </p>
         </div>
 
-        <!-- Tabs Jueces-->
+        <!-- Tabs -->
         {% if jueces_por_tipo %}
         <div class="max-w-7xl mx-auto">
-            <!-- Navegación Tabs -->
+            <!-- Tab Navigation -->
             <div class="flex flex-wrap justify-center mb-8 border-b border-gray-200">
                 {% for tipo, jueces in jueces_por_tipo.items %}
                 <button class="tab-button px-6 py-3 text-sm font-medium text-gray-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition-all duration-200 {% if forloop.first %}active text-blue-600 border-blue-600{% endif %}" data-tab="tab-{{ tipo.id }}">
@@ -25,7 +26,7 @@
                 {% endfor %}
             </div>
 
-            <!-- Contenido Tabs -->
+            <!-- Tab Content -->
             {% for tipo, jueces in jueces_por_tipo.items %}
             <div id="tab-{{ tipo.id }}" class="tab-content {% if forloop.first %}active{% endif %}">
                 <div class="mb-6">
@@ -35,8 +36,8 @@
                     {% endif %}
                 </div>
 
-                <!-- Filtro de búsqueda -->
-                <div class="mb-6 flex justify-center"> 
+                <!-- Search Filter -->
+                <div class="mb-6 flex justify-center">
                     <label for="search-{{ tipo.id }}" class="sr-only">Buscar jueces</label>
                     <div class="relative w-3/4 max-w-xl">
                         <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -53,9 +54,9 @@
                     </div>
                 </div>
 
-                <!-- Jueces Cards (Mobile) y Tabla (Desktop) -->
+                <!-- Jueces Cards (Mobile) and Table (Desktop) -->
                 <div class="hidden md:block">
-                    <!-- Tabla Desktop -->
+                    <!-- Desktop Table -->
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -192,7 +193,7 @@
                         </table>
                     </div>
                     
-                    <!-- Mensaje de no resultados Desktop -->
+                    <!-- Desktop No Results Message -->
                     <div id="no-results-desktop-{{ tipo.id }}" class="hidden text-center py-8">
                         <div class="max-w-md mx-auto">
                             <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -204,12 +205,12 @@
                     </div>
                 </div>
 
-                <!-- Cards Mobile -->
+                <!-- Mobile Cards -->
                 <div class="md:hidden">
                     <div class="grid grid-cols-1 gap-4" id="cards-{{ tipo.id }}">
                         {% for juez in jueces %}
                         <div class="juez-card bg-white rounded-lg shadow-md border border-gray-200 p-4" data-nombre="{{ juez.nombres|lower }} {{ juez.apellido_paterno|lower }} {{ juez.apellido_materno|lower }}">
-                            <!-- Foto y nombre -->
+                            <!-- Header con foto y nombre -->
                             <div class="flex items-center mb-4">
                                 {% if juez.fotografia %}
                                 <img src="{{ juez.fotografia.url }}" alt="{{ juez.nombre_completo }}" class="w-16 h-16 rounded-full object-cover mr-4">
@@ -229,6 +230,7 @@
                                 </div>
                             </div>
 
+                            <!-- Información detallada -->
                             <div class="space-y-3">
                                 <!-- Razas -->
                                 {% if juez.razas.all %}
@@ -334,7 +336,7 @@
                         {% endfor %}
                     </div>
                     
-                    <!-- Mensaje de no resultados Mobile -->
+                    <!-- Mobile No Results Message -->
                     <div id="no-results-mobile-{{ tipo.id }}" class="hidden text-center py-8">
                         <div class="max-w-md mx-auto">
                             <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -366,7 +368,7 @@
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Funcionalidad Tabs
+    // Tab functionality
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
     
@@ -374,23 +376,23 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', () => {
             const targetTab = button.getAttribute('data-tab');
             
-            // Eliminar clase active de todos los botones y contenidos
+            // Remove active class from all buttons and contents
             tabButtons.forEach(btn => btn.classList.remove('active', 'text-blue-600', 'border-blue-600'));
             tabContents.forEach(content => content.classList.remove('active'));
             
-            // Agregar clase active al botón y contenido objetivo
+            // Add active class to clicked button and target content
             button.classList.add('active', 'text-blue-600', 'border-blue-600');
             document.getElementById(targetTab).classList.add('active');
         });
     });
 
-    // Funcionalidad de búsqueda para cada tab
+    // Search functionality for each tab
     const searchInputs = document.querySelectorAll('input[id^="search-"]');
     searchInputs.forEach(input => {
         const tabId = input.id.replace('search-', '');
         const clearButton = document.getElementById(`clear-search-${tabId}`);
         
-        // Mostrar/ocultar botón de limpiar basado en el valor de la entrada
+        // Show/hide clear button based on input value
         function toggleClearButton() {
             if (input.value.length > 0) {
                 clearButton.classList.remove('hidden');
@@ -399,12 +401,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Función de búsqueda
+        // Search function
         function performSearch() {
             const searchTerm = input.value.toLowerCase();
             let hasResults = false;
             
-            // Búsqueda en la tabla Desktop
+            // Search in desktop table
             const tbody = document.getElementById(`tbody-${tabId}`);
             const noResultsDesktop = document.getElementById(`no-results-desktop-${tabId}`);
             if (tbody) {
@@ -420,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
                 
-                // Mostrar/ocultar mensaje de no resultados Desktop
+                // Show/hide desktop no results message
                 if (visibleRows === 0 && searchTerm.length > 0) {
                     noResultsDesktop.classList.remove('hidden');
                 } else {
@@ -430,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (visibleRows > 0) hasResults = true;
             }
             
-            // Búsqueda en los cards Mobile
+            // Search in mobile cards
             const cardsContainer = document.getElementById(`cards-${tabId}`);
             const noResultsMobile = document.getElementById(`no-results-mobile-${tabId}`);
             if (cardsContainer) {
@@ -446,7 +448,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
                 
-                // Mostrar/ocultar mensaje de no resultados Mobile
+                // Show/hide mobile no results message
                 if (visibleCards === 0 && searchTerm.length > 0) {
                     noResultsMobile.classList.remove('hidden');
                 } else {
@@ -457,13 +459,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Evento de entrada
+        // Input event listener
         input.addEventListener('input', function() {
             toggleClearButton();
             performSearch();
         });
         
-        // Evento de botón de limpiar
+        // Clear button event listener
         clearButton.addEventListener('click', function() {
             input.value = '';
             toggleClearButton();
@@ -471,9 +473,24 @@ document.addEventListener('DOMContentLoaded', function() {
             input.focus();
         });
         
-        // Estado inicial
+        // Initial state
         toggleClearButton();
     });
 });
 </script>
+
+<style>
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-button.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+}
+</style>
 {% endblock %} 
