@@ -252,32 +252,6 @@ body {
     color: #6b7280;
 }
 
-/* Animación de typing para el título KENNEL */
-@keyframes typing {
-    0% {
-        width: 0%;
-        visibility: hidden;
-    }
-    60% {
-        width: 100%;
-    }
-    100% {
-        width: 100%;
-    }
-}
-
-@keyframes blink {
-    50% {
-        border-color: transparent;
-    }
-    100% {
-        border-color: white;
-    }
-}
-
-.animate-typing {
-    animation: typing 5s steps(20) infinite, blink 0.7s infinite;
-}
 
 /* Clases de colores para títulos y párrafos */
 .title-color {
@@ -361,11 +335,6 @@ body {
     .filtros-container button,
     .filtros-container a {
         width: 100%;
-    }
-    
-    /* Panel de redes sociales - ocultar en móvil */
-    .social-panel {
-        display: none;
     }
     
     /* Ajustes de padding para móvil */
@@ -682,7 +651,7 @@ body {
         padding: 2rem;
     }
 }
-
+/* css fondo home corregido */
 .container-home {
     position: relative;
     width: 100vw;
@@ -715,7 +684,7 @@ body {
 }
 /* Estilos para el título principal */
 .main-title {
-    font-size: 6rem;
+    font-size: 12rem;
     font-weight: 800;
     overflow: hidden;
     white-space: nowrap;
@@ -736,16 +705,16 @@ body {
     margin-top: 2.5rem;
     text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
-  /* Estilos para los enlaces de redes sociales */
-.social-links {
+  /* Estilos para los enlaces de redes sociales del home */
+.social-links-fh {
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
     justify-content: flex-start;
   }
   
-  .social-link {
-    background: rgba(255, 255, 255, 0.8);
+  .social-link-fh {
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 50%;
     padding: 12px;
     transition: all 0.3s ease;
@@ -753,16 +722,20 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.3);
   }
   
-  .social-link:hover {
+  .social-link-fh:hover {
     background: white;
-    transform: scale(1);
+    transform: scale(1.1);
+    box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.8);
   }
   
-  .social-icon {
+  .social-icon-fh {
     width: 24px;
     height: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
 
   .svg-curva {
@@ -802,16 +775,17 @@ body {
         margin-top: 0.5rem !important;
         margin-bottom: 0.5rem !important;
       }
-      .social-links {
+      .social-links-fh {
         gap: 0.25rem;
         margin-top: 0.25rem !important;
       }
-      .social-link {
-        padding: 6px !important;;
+      .social-link-fh {
+        padding: 6px !important;
+        border-width: 1px !important;
       }
-      .social-icon {
-        width: 16px !important;;
-        height: 16px !important;;
+      .social-icon-fh {
+        width: 16px !important;
+        height: 16px !important;
       }
   }
 
@@ -834,16 +808,17 @@ body {
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
     }
-    .social-links {
+    .social-links-fh {
         gap: 0.4rem;
         margin-top: 0.4rem;
     }
-    .social-link {
+    .social-link-fh {
         padding: 7px;
+        border-width: 1.5px;
     }
-    .social-icon {
-    width: 15px;
-    height: 15px;
+    .social-icon-fh {
+        width: 15px;
+        height: 15px;
     }
   }
   
@@ -862,14 +837,15 @@ body {
         font-size: 1rem;
         margin-bottom: 0.5rem;
       }
-      .social-links {
+      .social-links-fh {
         gap: 0.4rem;
         margin-top: 0.4rem;
       }
-      .social-link {
+      .social-link-fh {
         padding: 7px;
+        border-width: 1.5px;
       }
-      .social-icon {
+      .social-icon-fh {
         width: 15px;
         height: 15px;
       }

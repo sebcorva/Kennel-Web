@@ -368,21 +368,38 @@
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing tabs...');
+    
     // Tab functionality
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
     
+    console.log('Found tab buttons:', tabButtons.length);
+    console.log('Found tab contents:', tabContents.length);
+    
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
+            console.log('Tab button clicked:', button.textContent);
             const targetTab = button.getAttribute('data-tab');
+            console.log('Target tab:', targetTab);
             
             // Remove active class from all buttons and contents
-            tabButtons.forEach(btn => btn.classList.remove('active', 'text-blue-600', 'border-blue-600'));
-            tabContents.forEach(content => content.classList.remove('active'));
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active', 'text-blue-600', 'border-blue-600');
+            });
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
             
             // Add active class to clicked button and target content
             button.classList.add('active', 'text-blue-600', 'border-blue-600');
-            document.getElementById(targetTab).classList.add('active');
+            const targetContent = document.getElementById(targetTab);
+            if (targetContent) {
+                targetContent.classList.add('active');
+                console.log('Tab content activated:', targetTab);
+            } else {
+                console.error('Target tab content not found:', targetTab);
+            }
         });
     });
 
@@ -481,16 +498,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style>
 .tab-content {
-    display: none;
+    display: none !important;
 }
 
 .tab-content.active {
-    display: block;
+    display: block !important;
 }
 
 .tab-button.active {
+    color: #2563eb !important;
+    border-bottom-color: #2563eb !important;
+}
+
+/* Asegurar que los tabs funcionen correctamente */
+.tab-button {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-button:hover {
     color: #2563eb;
     border-bottom-color: #2563eb;
+}
+
+/* Ocultar todos los contenidos por defecto */
+.tab-content:not(.active) {
+    display: none !important;
 }
 </style>
 {% endblock %} 
